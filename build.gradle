@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+
+}
+
+group 'com.github.chatimagecode'
+version '0.5.0'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'clojars'
+        url = "https://clojars.org/repo"
+    }
+}
+
+dependencies {
+    implementation('net.sf.image4j:image4j:0.7zensight1')
+    implementation('com.squareup.okhttp3:okhttp:3.14.9')
+    implementation('com.squareup.okio:okio:1.17.2')
+    compileOnly ('com.google.guava:guava:31.0.1-jre')
+    implementation('com.madgag:animated-gif-lib:1.4')
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
+tasks.register('fatJar', Jar) {
+    manifest.from jar.manifest
+    classifier = 'all'
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    } {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
+    with jar
+}
+
