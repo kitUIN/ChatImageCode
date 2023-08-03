@@ -19,6 +19,7 @@ dependencies {
     implementation('com.squareup.okhttp3:okhttp:3.14.9')
     implementation('com.squareup.okio:okio:1.17.2')
     compileOnly ('com.google.guava:guava:31.0.1-jre')
+    compileOnly ('com.google.code.gson:gson:2.8.9')
     implementation('com.madgag:animated-gif-lib:1.4')
 }
 

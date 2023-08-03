@@ -14,6 +14,7 @@ import java.util.concurrent.CompletableFuture;
 
 import static com.github.chatimagecode.ChatImageCode.CACHE_MAP;
 import static com.github.chatimagecode.ChatImageCode.ChatImageType.*;
+
 public class ChatImageHandler {
     /**
      * 添加进入本地图片序列
@@ -93,15 +94,15 @@ public class ChatImageHandler {
      */
     public static void loadFile(byte[] input, String url) throws IOException {
         ChatImageCode.ChatImageType t = getPicType(input);
-        if(t==GIF){
+        if (t == GIF) {
             loadGif(input, url);
-        }else if(t==ICO){
+        } else if (t == ICO) {
             List<BufferedImage> images;
             images = ICODecoder.read(new ByteArrayInputStream(input));
             AddChatImage(images.get(0), url);
-        }else if(t==PNG){
+        } else if (t == PNG) {
             AddChatImage(ImageIO.read(new ByteArrayInputStream(input)), url);
-        }else if(t == WEBP){
+        } else if (t == WEBP) {
 //                    ImageReader reader = ImageIO.getImageReadersByMIMEType("image/webp").next();
 //                    WebPReadParam readParam = new WebPReadParam();
 //                    readParam.setBypassFiltering(true);
