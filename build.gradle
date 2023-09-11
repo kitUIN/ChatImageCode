@@ -31,6 +31,7 @@ test {
 tasks.register('fatJar', Jar) {
     manifest.from jar.manifest
     archiveClassifier.set('')
+    destinationDir(new File("D:\\out"))
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     } {
