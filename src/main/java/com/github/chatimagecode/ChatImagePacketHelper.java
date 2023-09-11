@@ -18,7 +18,7 @@ import static com.github.chatimagecode.ChatImageHandler.loadFile;
 public class ChatImagePacketHelper {
     public static int Limit = 10000;
     /**
-     * 服务器文件分块缓存 URL->MAP(序号,数据)
+     * 服务器文件分块缓存URL->MAP(序号,数据)
      */
     public static HashMap<String, HashMap<Integer, String>> SERVER_BLOCK_CACHE = new HashMap<>();
 
@@ -36,19 +36,15 @@ public class ChatImagePacketHelper {
     public static HashMap<String, HashMap<Integer, ChatImageIndex>> CLIENT_CACHE_MAP = new HashMap<>();
     public static Gson gson = new Gson();
 
-    /**
-     * 创建文件分块网络包列表
-     *
-     * @param url    url
-     * @param file   文件
-     */
+
+
     public static List<String> createFilePacket(String url, File file) {
         try (InputStream input = Files.newInputStream(file.toPath())) {
             List<String> stringList = Lists.newArrayList();
             byte[] byt = new byte[input.available()];
             int status = input.read(byt);
             int index = 0;
-            int indexC = 0;
+            int indexC = 1;
             String base64 = Base64.getEncoder().encodeToString(byt);
             int total = base64.length();
             int count = total / Limit;
@@ -61,11 +57,12 @@ public class ChatImagePacketHelper {
             while (index <= total) {
                 stringList.add(gson.toJson(new ChatImageIndex(indexC, totalC, url, base64.substring(index, Math.min(index + Limit, total)))));
                 index += Limit;
+                indexC ++;
             }
             return stringList;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return Lists.newArrayList();
         }
 
     }
@@ -77,8 +74,8 @@ public class ChatImagePacketHelper {
      */
     public static void mergeFileBlocks(String url,Map<Integer,ChatImageIndex> blocks) throws IOException {
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < blocks.size(); i++) {
-            builder.append(blocks.get(i).bytes);
+        for (int i = 1; i <= blocks.size(); i++) {
+            builder.append(blocks.get(i - 1).bytes);
         }
         try {
             loadFile(Base64.getDecoder().decode(builder.toString()), url);
