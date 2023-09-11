@@ -75,7 +75,7 @@ public class ChatImagePacketHelper {
     public static void mergeFileBlocks(String url,Map<Integer,ChatImageIndex> blocks) throws IOException {
         StringBuilder builder = new StringBuilder();
         for (int i = 1; i <= blocks.size(); i++) {
-            builder.append(blocks.get(i - 1).bytes);
+            builder.append(blocks.get(i).bytes);
         }
         try {
             loadFile(Base64.getDecoder().decode(builder.toString()), url);
