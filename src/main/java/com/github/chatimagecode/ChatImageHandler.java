@@ -112,9 +112,15 @@ public class ChatImageHandler {
     }
 
     public static void loadFile(InputStream input, String url) throws IOException {
-        byte[] is = new byte[input.available()];
-        int r = input.read(is);
-        loadFile(is, url);
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        int nRead;
+        byte[] data = new byte[1024];
+        while ((nRead = input.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, nRead);
+        }
+        buffer.flush();
+        byte[] byteArray = buffer.toByteArray();
+        loadFile(byteArray, url);
     }
 
     public static void loadFile(String url) throws IOException {
