@@ -105,10 +105,8 @@ public class ChatImageCode {
     }
 
     /**
-     * 切片每个code属性
+     * slice each code variable
      *
-     * @param rawCode 原始code
-     * @throws InvalidChatImageCodeException 切片失败
      */
     private void slice(String rawCode) throws InvalidChatImageCodeException {
         if (!rawCode.contains("url")) {

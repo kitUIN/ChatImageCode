@@ -29,8 +29,7 @@ public class ChatImageHttpHandler {
         } else {
             HTTPS_MAP.put(url, 1);
         }
-        Call call = httpClient.newCall(getRequest);
-        call.enqueue(new Callback() {
+        httpClient.newCall(getRequest).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 HTTPS_MAP.put(url, 2);
@@ -42,7 +41,7 @@ public class ChatImageHttpHandler {
                 ResponseBody body = response.body();
                 if (body != null) {
                     try {
-                        loadFile(body.byteStream(), url);
+                        loadFile(body.bytes(), url);
                     } catch (IOException ignored) {
 
                     }

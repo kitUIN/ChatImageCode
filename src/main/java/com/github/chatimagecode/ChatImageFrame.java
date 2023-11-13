@@ -50,8 +50,6 @@ public class ChatImageFrame<T> {
     /**
      * 载入图片
      *
-     * @param limitWidth  限制的横向长度
-     * @param limitHeight 限制的纵向长度
      * @return 载入成功返回true, 失败则为false
      */
     public boolean loadImage(int limitWidth, int limitHeight) {
@@ -67,10 +65,8 @@ public class ChatImageFrame<T> {
     }
 
     /**
-     * 限制显示图片的长宽
+     * limit display image width & height
      *
-     * @param limitWidth  限制的横向长度
-     * @param limitHeight 限制的纵向长度
      */
     public void limitSize(int limitWidth, int limitHeight) {
         this.width = originalWidth;

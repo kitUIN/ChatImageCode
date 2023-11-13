@@ -90,7 +90,7 @@ public class ChatImageUrl {
 
 
     /**
-     * Url的类型
+     * Url method
      */
     public enum UrlMethod {
         /**

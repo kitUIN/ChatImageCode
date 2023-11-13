@@ -57,8 +57,6 @@ public class ChatImageHandler {
     /**
      * 载入Gif
      *
-     * @param is  输入流
-     * @param url url
      */
     public static void loadGif(InputStream is, String url) {
         CompletableFuture.supplyAsync(() -> {
