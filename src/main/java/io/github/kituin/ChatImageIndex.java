@@ -1,4 +1,4 @@
-package com.github.chatimagecode;
+package io.github.kituin;
 
 public class ChatImageIndex {
     public int index;

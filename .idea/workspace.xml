@@ -4,25 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0eaf0ddb-0d5f-42df-884f-109798307eb6" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImageCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImageFrame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImageHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImageHttpHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImageIndex.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImageUrl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/exception/InvalidChatImageCodeException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/exception/InvalidChatImageUrlException.java" afterDir="false" />
+    <list default="true" id="0eaf0ddb-0d5f-42df-884f-109798307eb6" name="变更" comment="try maven">
+      <change afterPath="$PROJECT_DIR$/.github/workflows/public_maven.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImageCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImageFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImageHttpHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageHttpHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImageIndex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageIndex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImagePacketHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImagePacketHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImageUrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageUrl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/exception/InvalidChatImageCodeException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/exception/InvalidChatImageCodeException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/exception/InvalidChatImageUrlException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/exception/InvalidChatImageUrlException.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,88 +38,62 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="ChatImageCode" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="ChatImageCode" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="ChatImageCode" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="ChatImageCode" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build setup" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="ChatImageCode" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="documentation" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="ChatImageCode" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="help" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="ChatImageCode" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="other" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="ChatImageCode" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="verification" type="c8890929:TasksNode$1" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2T1bjDip5WYO9YF4XgdhU8PxjD1" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/IdeaProjects/ChatImageCode-Gradle&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "D:/Downloads/duoduo-java/duoduo-java",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "模块",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.18557692",
+    "settings.editor.selected.configurable": "settings.nodejs",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\IdeaProjects\ChatImageCode-Gradle" />
+      <recent name="D:\IdeaProjects\ChatImageCode-Gradle\libs" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.ChatImageCode-Gradle [fatJar]">
+  <component name="RunManager" selected="Gradle.ChatImageCode-Gradle [build]">
     <configuration name="ChatImageCode-Gradle [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -143,6 +113,7 @@
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
     <configuration name="ChatImageCode-Gradle [fatJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -164,6 +135,29 @@
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="ChatImageCode-Gradle [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="jar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
     <configuration name="ChatImageCode-Gradle [shadowJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -185,6 +179,7 @@
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
     <configuration name="ChatImageCode-Gradle [wrapper]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -206,13 +201,15 @@
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.ChatImageCode-Gradle [build]" />
+        <item itemvalue="Gradle.ChatImageCode-Gradle [jar]" />
         <item itemvalue="Gradle.ChatImageCode-Gradle [fatJar]" />
         <item itemvalue="Gradle.ChatImageCode-Gradle [shadowJar]" />
-        <item itemvalue="Gradle.ChatImageCode-Gradle [build]" />
         <item itemvalue="Gradle.ChatImageCode-Gradle [wrapper]" />
       </list>
     </recent_temporary>
@@ -226,11 +223,93 @@
       <option name="presentableId" value="Default" />
       <updated>1690213667041</updated>
       <workItem from="1690213668111" duration="1175000" />
-      <workItem from="1690979380974" duration="2705000" />
+      <workItem from="1690979380974" duration="3450000" />
+      <workItem from="1691048831102" duration="3258000" />
+      <workItem from="1691052099189" duration="595000" />
+      <workItem from="1694402696376" duration="1636000" />
+      <workItem from="1694422227729" duration="3036000" />
+      <workItem from="1694437503023" duration="32000" />
+      <workItem from="1694441023590" duration="230000" />
+      <workItem from="1694441906873" duration="69000" />
+      <workItem from="1694511133848" duration="1097000" />
+      <workItem from="1694513148053" duration="656000" />
+      <workItem from="1699886134094" duration="3505000" />
+      <workItem from="1699978563114" duration="22000" />
+      <workItem from="1700114067596" duration="1041000" />
     </task>
+    <task id="LOCAL-00001" summary="gradle版">
+      <created>1690982424735</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1690982424735</updated>
+    </task>
+    <task id="LOCAL-00002" summary="string 传输">
+      <created>1691052663538</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1691052663538</updated>
+    </task>
+    <task id="LOCAL-00003" summary="fix bug">
+      <created>1694426615931</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1694426615931</updated>
+    </task>
+    <task id="LOCAL-00004" summary="fix bug">
+      <created>1694441245723</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1694441245723</updated>
+    </task>
+    <task id="LOCAL-00005" summary="fix bug">
+      <created>1694441971076</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1694441971076</updated>
+    </task>
+    <task id="LOCAL-00006" summary="fix bug">
+      <created>1694512164841</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1694512164841</updated>
+    </task>
+    <task id="LOCAL-00007" summary="fix bug,http speed up">
+      <option name="closed" value="true" />
+      <created>1699887417394</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1699887417394</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="gradle版" />
+    <MESSAGE value="string 传输" />
+    <MESSAGE value="fix bug" />
+    <MESSAGE value="fix bug,http speed up" />
+    <MESSAGE value="try maven" />
+    <option name="LAST_COMMIT_MESSAGE" value="try maven" />
   </component>
 </project>

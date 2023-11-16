@@ -1,9 +1,10 @@
 plugins {
     id 'java'
-
+    id 'maven-publish'
+    id 'signing'
 }
 
-group 'com.github.chatimagecode'
+
 
 repositories {
     mavenCentral()
@@ -41,3 +42,64 @@ tasks.register('fatJar', Jar) {
     with jar
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+javadoc {
+    options.addStringOption("charset", "UTF-8")
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId project.name
+            groupId "io.github.kituin"
+            artifact fatJar
+            pom {
+                name = project.name
+                description = 'Lib for ChatImage'
+                url = 'https://github.com/kitUIN/ChatImageCode'
+                licenses {
+                    license {
+                        name = 'MIT'
+                        url = ''
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'kitUIN'
+                        name = 'kitUIN'
+                        email = 'KIT_UIN@outlook.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/kitUIN/ChatImageCode.git'
+                    developerConnection = 'scm:git:ssh://github.com/kitUIN/ChatImageCode.git'
+                    url = 'https://github.com/kitUIN/ChatImageCode'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = project.name
+            if (project.version.toString().endsWith("-SNAPSHOT")) {
+                url = "https://s01.oss.sonatype.org/content/repositories/snapshots"
+            } else {
+                url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            }
+            credentials {
+                username = findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
+                password = findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
+            }
+        }
+    }
+}
+
+signing {
+    sign(publishing.publications.mavenJava)
+}

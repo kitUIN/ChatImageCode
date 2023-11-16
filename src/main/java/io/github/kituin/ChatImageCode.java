@@ -1,9 +1,9 @@
-package com.github.chatimagecode;
+package io.github.kituin;
 
 
 
-import com.github.chatimagecode.exception.InvalidChatImageCodeException;
-import com.github.chatimagecode.exception.InvalidChatImageUrlException;
+import io.github.kituin.exception.InvalidChatImageCodeException;
+import io.github.kituin.exception.InvalidChatImageUrlException;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;

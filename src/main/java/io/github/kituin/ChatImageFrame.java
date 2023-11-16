@@ -1,4 +1,4 @@
-package com.github.chatimagecode;
+package io.github.kituin;
 
 import com.google.common.collect.Lists;
 

@@ -1,11 +1,11 @@
-package com.github.chatimagecode;
+package io.github.kituin;
 
 import okhttp3.*;
 
 import java.io.IOException;
 import java.util.HashMap;
 
-import static com.github.chatimagecode.ChatImageHandler.loadFile;
+import static io.github.kituin.ChatImageHandler.loadFile;
 
 /**
  * @author kitUIN
@@ -41,7 +41,7 @@ public class ChatImageHttpHandler {
                 ResponseBody body = response.body();
                 if (body != null) {
                     try {
-                        loadFile(body.bytes(), url);
+                        ChatImageHandler.loadFile(body.bytes(), url);
                     } catch (IOException ignored) {
 
                     }

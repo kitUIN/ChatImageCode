@@ -1,19 +1,16 @@
-package com.github.chatimagecode;
+package io.github.kituin;
 
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.github.chatimagecode.ChatImageHandler.loadFile;
+import static io.github.kituin.ChatImageHandler.loadFile;
 
 public class ChatImagePacketHelper {
     public static int Limit = 10000;
@@ -78,7 +75,7 @@ public class ChatImagePacketHelper {
             builder.append(blocks.get(i).bytes);
         }
         try {
-            loadFile(Base64.getDecoder().decode(builder.toString()), url);
+            ChatImageHandler.loadFile(Base64.getDecoder().decode(builder.toString()), url);
         } catch (IOException e) {
             throw new IOException(e);
         }

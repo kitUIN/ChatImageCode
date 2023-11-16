@@ -1,12 +1,11 @@
-package com.github.chatimagecode;
+package io.github.kituin;
 
-import com.github.chatimagecode.exception.InvalidChatImageUrlException;
+import io.github.kituin.exception.InvalidChatImageUrlException;
 
 import java.io.File;
 import java.io.IOException;
 
-import static com.github.chatimagecode.ChatImageCode.CACHE_MAP;
-import static com.github.chatimagecode.ChatImageHandler.loadFile;
+import static io.github.kituin.ChatImageHandler.loadFile;
 
 public class ChatImageUrl {
     private final String originalUrl;
@@ -30,7 +29,7 @@ public class ChatImageUrl {
         if (this.originalUrl.startsWith("http://") || this.originalUrl.startsWith("https://")) {
             this.urlMethod = UrlMethod.HTTP;
             this.httpUrl = this.originalUrl;
-            if (!CACHE_MAP.containsKey(this.httpUrl)) {
+            if (!ChatImageCode.CACHE_MAP.containsKey(this.httpUrl)) {
                 boolean f = ChatImageHttpHandler.getInputStream(this.httpUrl);
                 if (!f) {
                     throw new InvalidChatImageUrlException("Invalid HTTP URL",
@@ -44,10 +43,10 @@ public class ChatImageUrl {
                     .replace("\\", "\\\\")
                     .replace("file:///", "");
             File file = new File(this.fileUrl);
-            if (!CACHE_MAP.containsKey(this.fileUrl)) {
+            if (!ChatImageCode.CACHE_MAP.containsKey(this.fileUrl)) {
                 if (file.exists()) {
                     try{
-                        loadFile(this.fileUrl);
+                        ChatImageHandler.loadFile(this.fileUrl);
                         networkHelper.send(this.fileUrl, file, true);
                     }catch (IOException e){
                         throw new InvalidChatImageUrlException(originalUrl + "<- IOException",
