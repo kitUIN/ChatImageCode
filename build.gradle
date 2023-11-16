@@ -43,7 +43,7 @@ tasks.register('fatJar', Jar) {
 }
 
 java {
-    withJavadocJar()
+    // withJavadocJar()
     withSourcesJar()
 }
 
