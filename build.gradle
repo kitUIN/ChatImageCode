@@ -61,7 +61,7 @@ javadoc {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifactId name
+            artifactId project.name
             groupId group
             version version
             artifact fatJar
