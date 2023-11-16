@@ -1,4 +1,4 @@
-package io.github.kituin;
+package io.github.kituin.CICode;
 
 import com.google.common.collect.Lists;
 
@@ -49,7 +49,8 @@ public class ChatImageFrame<T> {
 
     /**
      * 载入图片
-     *
+     * @param limitWidth limitWidth
+     * @param limitHeight limitHeight
      * @return 载入成功返回true, 失败则为false
      */
     public boolean loadImage(int limitWidth, int limitHeight) {
@@ -65,8 +66,10 @@ public class ChatImageFrame<T> {
     }
 
     /**
-     * limit display image width & height
+     * limit display image width and height
      *
+     * @param limitWidth limitWidth
+     * @param limitHeight limitHeight
      */
     public void limitSize(int limitWidth, int limitHeight) {
         this.width = originalWidth;

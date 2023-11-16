@@ -1,4 +1,4 @@
-package io.github.kituin;
+package io.github.kituin.CICode;
 
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
@@ -10,21 +10,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.kituin.ChatImageHandler.loadFile;
+import static io.github.kituin.CICode.ChatImageHandler.loadFile;
 
 public class ChatImagePacketHelper {
     public static int Limit = 10000;
     /**
-     * 服务器文件分块缓存URL->MAP(序号,数据)
+     * 服务器文件分块缓存URL2MAP(序号,数据)
      */
     public static HashMap<String, HashMap<Integer, String>> SERVER_BLOCK_CACHE = new HashMap<>();
 
     /**
-     * 文件分块总数记录 URL->Total
+     * 文件分块总数记录 URL2Total
      */
     public static HashMap<String, Integer> FILE_COUNT_MAP = new HashMap<>();
     /**
-     * 广播列表 URL->List(UUID)
+     * 广播列表 URL2List(UUID)
      */
     public static HashMap<String, List<String>> USER_CACHE_MAP = new HashMap<>();
     /**
@@ -66,8 +66,9 @@ public class ChatImagePacketHelper {
 
     /**
      * 合并文件分块
-     * @param url
-     * @param blocks
+     * @param url url
+     * @param blocks blocks
+     * @throws IOException IOException
      */
     public static void mergeFileBlocks(String url,Map<Integer,ChatImageIndex> blocks) throws IOException {
         StringBuilder builder = new StringBuilder();

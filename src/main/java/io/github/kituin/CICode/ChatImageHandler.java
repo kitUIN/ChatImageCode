@@ -1,4 +1,4 @@
-package io.github.kituin;
+package io.github.kituin.CICode;
 
 
 import com.madgag.gif.fmsware.GifDecoder;
@@ -12,8 +12,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import static io.github.kituin.ChatImageCode.CACHE_MAP;
-import static io.github.kituin.ChatImageCode.ChatImageType.*;
+import static io.github.kituin.CICode.ChatImageCode.CACHE_MAP;
+import static io.github.kituin.CICode.ChatImageCode.ChatImageType.*;
 
 public class ChatImageHandler {
     /**
@@ -56,7 +56,8 @@ public class ChatImageHandler {
 
     /**
      * 载入Gif
-     *
+     * @param is InputStream
+     * @param url url
      */
     public static void loadGif(InputStream is, String url) {
         CompletableFuture.supplyAsync(() -> {
@@ -89,6 +90,7 @@ public class ChatImageHandler {
      *
      * @param input InputStream
      * @param url   url
+     * @throws IOException io Exception
      */
     public static void loadFile(byte[] input, String url) throws IOException {
         ChatImageCode.ChatImageType t = getPicType(input);

@@ -1,4 +1,4 @@
-package io.github.kituin.exception;
+package io.github.kituin.CICode.exception;
 
 public class InvalidChatImageUrlException extends Exception{
     private final String message;
@@ -20,15 +20,15 @@ public class InvalidChatImageUrlException extends Exception{
     public enum InvalidUrlMode
     {
         /**
-         * 文件不存在
+         * file not found
          */
         FileNotFound,
         /**
-         * http 连接无法访问
+         * http can't connection
          */
         HttpNotFound,
         /**
-         * 其他错误
+         * others
          */
         NotFound
     }

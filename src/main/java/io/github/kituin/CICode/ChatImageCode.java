@@ -1,9 +1,9 @@
-package io.github.kituin;
+package io.github.kituin.CICode;
 
 
 
-import io.github.kituin.exception.InvalidChatImageCodeException;
-import io.github.kituin.exception.InvalidChatImageUrlException;
+import io.github.kituin.CICode.exception.InvalidChatImageCodeException;
+import io.github.kituin.CICode.exception.InvalidChatImageUrlException;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -74,10 +74,9 @@ public class ChatImageCode {
     }
 
     /**
-     * 载入纹理<br/>
-     * 注意特判 Identifier 不为 null
+     * Load Texture from cache
      *
-     * @return Identifier(如果加载失败返回null)
+     * @return Identifier
      */
     public ChatImageFrame getFrame() {
         String useUrl = this.url.getUrl();

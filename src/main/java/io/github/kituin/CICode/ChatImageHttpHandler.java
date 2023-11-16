@@ -1,11 +1,11 @@
-package io.github.kituin;
+package io.github.kituin.CICode;
 
 import okhttp3.*;
 
 import java.io.IOException;
 import java.util.HashMap;
 
-import static io.github.kituin.ChatImageHandler.loadFile;
+import static io.github.kituin.CICode.ChatImageHandler.loadFile;
 
 /**
  * @author kitUIN

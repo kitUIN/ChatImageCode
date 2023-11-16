@@ -1,4 +1,4 @@
-package io.github.kituin.exception;
+package io.github.kituin.CICode.exception;
 
 
 /**
