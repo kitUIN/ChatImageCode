@@ -1,11 +1,11 @@
-package io.github.kituin.CICode;
+package io.github.kituin.ChatImageCode;
 
-import io.github.kituin.CICode.exception.InvalidChatImageUrlException;
+import io.github.kituin.ChatImageCode.exception.InvalidChatImageUrlException;
 
 import java.io.File;
 import java.io.IOException;
 
-import static io.github.kituin.CICode.ChatImageHandler.loadFile;
+import static io.github.kituin.ChatImageCode.ChatImageHandler.loadFile;
 
 public class ChatImageUrl {
     private final String originalUrl;

@@ -1,4 +1,4 @@
-package io.github.kituin.CICode;
+package io.github.kituin.ChatImageCode;
 
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static io.github.kituin.CICode.ChatImageHandler.loadFile;
+import static io.github.kituin.ChatImageCode.ChatImageHandler.loadFile;
 
 public class ChatImagePacketHelper {
     public static int Limit = 10000;

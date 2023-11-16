@@ -1,4 +1,4 @@
-package io.github.kituin.CICode;
+package io.github.kituin.ChatImageCode;
 
 
 import com.madgag.gif.fmsware.GifDecoder;
@@ -12,8 +12,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import static io.github.kituin.CICode.ChatImageCode.CACHE_MAP;
-import static io.github.kituin.CICode.ChatImageCode.ChatImageType.*;
+import static io.github.kituin.ChatImageCode.ChatImageCode.CACHE_MAP;
+import static io.github.kituin.ChatImageCode.ChatImageCode.ChatImageType.*;
 
 public class ChatImageHandler {
     /**

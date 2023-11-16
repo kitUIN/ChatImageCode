@@ -4,21 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0eaf0ddb-0d5f-42df-884f-109798307eb6" name="变更" comment="try maven">
-      <change afterPath="$PROJECT_DIR$/.github/workflows/public_maven.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="0eaf0ddb-0d5f-42df-884f-109798307eb6" name="变更" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImageCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImageFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImageHttpHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageHttpHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImageIndex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageIndex.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImagePacketHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImagePacketHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/ChatImageUrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageUrl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/exception/InvalidChatImageCodeException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/exception/InvalidChatImageCodeException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/chatimagecode/exception/InvalidChatImageUrlException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/exception/InvalidChatImageUrlException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/CICode/ChatImageCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/CICode/ChatImageFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/CICode/ChatImageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/CICode/ChatImageHttpHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageHttpHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/CICode/ChatImageIndex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageIndex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/CICode/ChatImagePacketHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImagePacketHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/CICode/ChatImageUrl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageUrl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/CICode/exception/InvalidChatImageCodeException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/exception/InvalidChatImageCodeException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/CICode/exception/InvalidChatImageUrlException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/exception/InvalidChatImageUrlException.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +90,7 @@
       <recent name="D:\IdeaProjects\ChatImageCode-Gradle\libs" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.ChatImageCode-Gradle [build]">
+  <component name="RunManager" selected="Gradle.ChatImageCode-Gradle [publish]">
     <configuration name="ChatImageCode-Gradle [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -160,7 +157,7 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="ChatImageCode-Gradle [shadowJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ChatImageCode-Gradle [publishToMavenLocal]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -171,7 +168,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="shadowJar" />
+            <option value="publishToMavenLocal" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -182,18 +179,18 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="ChatImageCode-Gradle [wrapper]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ChatImageCode-Gradle [publish]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
+        <option name="scriptParameters" value="" />
         <option name="taskDescriptions">
           <list />
         </option>
         <option name="taskNames">
           <list>
-            <option value="wrapper" />
+            <option value="publish" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -206,11 +203,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.ChatImageCode-Gradle [publish]" />
+        <item itemvalue="Gradle.ChatImageCode-Gradle [publishToMavenLocal]" />
         <item itemvalue="Gradle.ChatImageCode-Gradle [build]" />
         <item itemvalue="Gradle.ChatImageCode-Gradle [jar]" />
         <item itemvalue="Gradle.ChatImageCode-Gradle [fatJar]" />
-        <item itemvalue="Gradle.ChatImageCode-Gradle [shadowJar]" />
-        <item itemvalue="Gradle.ChatImageCode-Gradle [wrapper]" />
       </list>
     </recent_temporary>
   </component>
@@ -235,7 +232,7 @@
       <workItem from="1694513148053" duration="656000" />
       <workItem from="1699886134094" duration="3505000" />
       <workItem from="1699978563114" duration="22000" />
-      <workItem from="1700114067596" duration="1041000" />
+      <workItem from="1700114067596" duration="6022000" />
     </task>
     <task id="LOCAL-00001" summary="gradle版">
       <created>1690982424735</created>
@@ -287,7 +284,71 @@
       <option name="project" value="LOCAL" />
       <updated>1699887417394</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="try maven">
+      <option name="closed" value="true" />
+      <created>1700115146680</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1700115146680</updated>
+    </task>
+    <task id="LOCAL-00009" summary="gradle-wrapper.jar">
+      <option name="closed" value="true" />
+      <created>1700115316717</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1700115316717</updated>
+    </task>
+    <task id="LOCAL-00010" summary="&#10;withoutJavadocJar">
+      <option name="closed" value="true" />
+      <created>1700115460425</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1700115460425</updated>
+    </task>
+    <task id="LOCAL-00011" summary="destinationDir">
+      <option name="closed" value="true" />
+      <created>1700115549283</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1700115549283</updated>
+    </task>
+    <task id="LOCAL-00012" summary="update">
+      <option name="closed" value="true" />
+      <created>1700116338263</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1700116338263</updated>
+    </task>
+    <task id="LOCAL-00013" summary="update">
+      <option name="closed" value="true" />
+      <created>1700116491772</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1700116491772</updated>
+    </task>
+    <task id="LOCAL-00014" summary="io.github.kituin.CICode">
+      <option name="closed" value="true" />
+      <created>1700121065719</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1700121065720</updated>
+    </task>
+    <task id="LOCAL-00015" summary="update">
+      <option name="closed" value="true" />
+      <created>1700121295374</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1700121295374</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -305,11 +366,18 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="gradle版" />
     <MESSAGE value="string 传输" />
     <MESSAGE value="fix bug" />
     <MESSAGE value="fix bug,http speed up" />
     <MESSAGE value="try maven" />
-    <option name="LAST_COMMIT_MESSAGE" value="try maven" />
+    <MESSAGE value="gradle-wrapper.jar" />
+    <MESSAGE value="&#10;withoutJavadocJar" />
+    <MESSAGE value="destinationDir" />
+    <MESSAGE value="io.github.kituin.CICode" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
 </project>

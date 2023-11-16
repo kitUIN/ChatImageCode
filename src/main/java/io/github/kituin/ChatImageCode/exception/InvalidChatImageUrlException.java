@@ -1,4 +1,4 @@
-package io.github.kituin.CICode.exception;
+package io.github.kituin.ChatImageCode.exception;
 
 public class InvalidChatImageUrlException extends Exception{
     private final String message;

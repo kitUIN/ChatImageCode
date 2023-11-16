@@ -1,9 +1,9 @@
-package io.github.kituin.CICode;
+package io.github.kituin.ChatImageCode;
 
 
 
-import io.github.kituin.CICode.exception.InvalidChatImageCodeException;
-import io.github.kituin.CICode.exception.InvalidChatImageUrlException;
+import io.github.kituin.ChatImageCode.exception.InvalidChatImageCodeException;
+import io.github.kituin.ChatImageCode.exception.InvalidChatImageUrlException;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;
