@@ -79,12 +79,15 @@ public class ChatImageCode {
      * @return Identifier
      */
     public ChatImageFrame getFrame() {
-        String useUrl = this.url.getUrl();
-        if (CACHE_MAP.containsKey(useUrl)) {
-            return CACHE_MAP.get(useUrl);
-        } else {
-            return new ChatImageFrame(ChatImageFrame.FrameError.ID_NOT_FOUND);
+        if(this.url != null){
+            String useUrl = this.url.getUrl();
+            if (CACHE_MAP.containsKey(useUrl)) {
+                return CACHE_MAP.get(useUrl);
+            } else {
+                return new ChatImageFrame(ChatImageFrame.FrameError.ID_NOT_FOUND);
+            }
         }
+        return new ChatImageFrame(ChatImageFrame.FrameError.ILLEGAL_CICODE_ERROR);
     }
 
 
@@ -108,7 +111,7 @@ public class ChatImageCode {
      *
      */
     private void slice(String rawCode) throws InvalidChatImageCodeException {
-        if (!rawCode.contains("url")) {
+        if (!rawCode.contains(",url=")) {
             throw new InvalidChatImageCodeException("not match url in ChatImageCode, Please Recheck");
         }
         String[] raws = rawCode.split(",");

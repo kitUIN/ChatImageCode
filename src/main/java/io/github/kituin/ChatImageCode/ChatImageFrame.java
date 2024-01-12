@@ -140,7 +140,7 @@ public class ChatImageFrame<T> {
         FILE_LOAD_ERROR,
         OTHER_ERROR,
         SERVER_FILE_LOAD_ERROR,
-
+        ILLEGAL_CICODE_ERROR,
     }
 
     public static class TextureReader<T> {
