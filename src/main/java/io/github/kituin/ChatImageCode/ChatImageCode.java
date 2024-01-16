@@ -24,7 +24,7 @@ public class ChatImageCode {
      * NSFW列表
      */
     public static HashMap<String, Integer> NSFW_MAP = new HashMap<>();
-    private ChatImageUrl url;
+    private ChatImageUrl url = null;
     private boolean nsfw = false;
     private final boolean isSelf;
     private final long timestamp;
@@ -111,9 +111,6 @@ public class ChatImageCode {
      *
      */
     private void slice(String rawCode) throws InvalidChatImageCodeException {
-        if (!rawCode.contains(",url=")) {
-            throw new InvalidChatImageCodeException("not match url in ChatImageCode, Please Recheck");
-        }
         String[] raws = rawCode.split(",");
         for (String raw : raws) {
             String[] temps = raw.split("=", 2);
@@ -133,6 +130,9 @@ public class ChatImageCode {
             } else {
                 throw new InvalidChatImageCodeException(raw + "<-can not match the value of ChatImageCode, Please Recheck");
             }
+        }
+        if (this.url == null) {
+            throw new InvalidChatImageCodeException("not match url in ChatImageCode, Please Recheck");
         }
     }
 
