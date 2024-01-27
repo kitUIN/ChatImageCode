@@ -48,7 +48,9 @@ public class ChatImageCode {
     public ChatImageCode(String url, String name) throws InvalidChatImageUrlException {
         this(new ChatImageUrl(url), name, false);
     }
-
+    public ChatImageCode(String url, boolean isSelf) throws InvalidChatImageUrlException {
+        this(new ChatImageUrl(url), null, isSelf);
+    }
 
     public ChatImageCode(ChatImageUrl url, String name, boolean isSelf) {
         this.url = url;

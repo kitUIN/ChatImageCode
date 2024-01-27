@@ -2,11 +2,10 @@ package io.github.kituin.ChatImageCode;
 
 import com.google.common.collect.Lists;
 import io.github.kituin.ChatImageCode.exception.InvalidChatImageCodeException;
+import io.github.kituin.ChatImageCode.exception.InvalidChatImageUrlException;
 
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -89,17 +88,52 @@ public class ChatImageCodeTool {
 
     /**
      * 检测文本中存在的图片链接,若存在则转为CICODE
-     * @param checkedText 检测的文本
+     * @param texts 检测的文本
+     * @param isSelf 是否为自身发送
      * @return 新文本
      */
-    public static String checkImageUri(String checkedText) {
-        Matcher matcher = uriPattern.matcher(checkedText);
-        while (matcher.find()) {
-            String url = matcher.group();
-            if(!url.isEmpty()){
-                checkedText = checkedText.substring(0,matcher.start()) + String.format("[[CICode,url=%s]]", url) + checkedText.substring(matcher.end());
+    public static List<Object>  checkImageUri(List<Object> texts,boolean isSelf) {
+        int i = 0;
+        while (i < texts.size()){
+            Object obj = texts.get(i);
+            i++;
+            if(obj instanceof String){
+                String checkedText = (String) obj;
+                Matcher matcher = uriPattern.matcher(checkedText);
+                int lastPosition = 0;
+                boolean first = true;
+                while (matcher.find()) {
+                    String url = matcher.group();
+                    try{
+                        ChatImageCode image = new ChatImageCode(url,isSelf);
+                        if(matcher.start() != 0)
+                        {
+                            if(first){
+                                texts.set(i-1,checkedText.substring(lastPosition, matcher.start()));
+                                first = false;
+                            }else{
+                                texts.add(i,checkedText.substring(lastPosition, matcher.start()));
+                                i++;
+                            }
+                        }
+                        lastPosition = matcher.end();
+                        if(first){
+                            texts.set(i-1,image);
+                            first = false;
+                        }else{
+                            texts.add(i,image);
+                            i++;
+                        }
+                    }catch (InvalidChatImageUrlException ignored){
+                    }
+                }
+                if(lastPosition != checkedText.length() && lastPosition != 0) {
+                    texts.add(i, checkedText.substring(lastPosition));
+                    i++;
+                }
             }
         }
-        return checkedText;
+
+        return texts;
     }
 }
