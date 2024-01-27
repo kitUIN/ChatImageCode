@@ -27,21 +27,11 @@ public class ChatImageHandler {
     }
 
     public static void AddChatImage(BufferedImage image, String url) {
-        try {
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            ImageIO.write(image, "png", os);
-            AddChatImage(new ByteArrayInputStream(os.toByteArray()), url);
-        } catch (IOException e) {
-            CACHE_MAP.put(url, new ChatImageFrame<>(ChatImageFrame.FrameError.FILE_LOAD_ERROR));
-        }
+        AddChatImage(new ChatImageFrame<>(image), url);
     }
 
     public static void AddChatImage(InputStream image, String url) {
-        try {
-            AddChatImage(new ChatImageFrame<>(image), url);
-        } catch (IOException e) {
-            CACHE_MAP.put(url, new ChatImageFrame<>(ChatImageFrame.FrameError.FILE_LOAD_ERROR));
-        }
+        AddChatImage(new ChatImageFrame<>(image), url);
     }
 
     /**
@@ -61,21 +51,19 @@ public class ChatImageHandler {
      */
     public static void loadGif(InputStream is, String url) {
         CompletableFuture.supplyAsync(() -> {
-            try {
-                GifDecoder gd = new GifDecoder();
-                int status = gd.read(is);
-                if (status != GifDecoder.STATUS_OK) {
-                    AddChatImageError(url, ChatImageFrame.FrameError.FILE_LOAD_ERROR);
-                    return null;
-                }
-                ChatImageFrame frame = new ChatImageFrame<>(gd.getFrame(0));
-                for (int i = 1; i < gd.getFrameCount(); i++) {
-                    frame.append(new ChatImageFrame<>(gd.getFrame(i)));
-                }
-                CACHE_MAP.put(url, frame);
-            } catch (IOException ignored) {
+            GifDecoder gd = new GifDecoder();
+            int status = gd.read(is);
+            if (status != GifDecoder.STATUS_OK) {
                 AddChatImageError(url, ChatImageFrame.FrameError.FILE_LOAD_ERROR);
+                return null;
             }
+            ChatImageFrame frame = new ChatImageFrame<>(gd.getFrame(0));
+            for (int i = 1; i < gd.getFrameCount(); i++) {
+                frame.append(new ChatImageFrame<>(gd.getFrame(i)));
+            }
+            // 检查gif所有的帧是否加载成功
+            frame.checkLoad();
+            CACHE_MAP.put(url, frame);
             return null;
         });
     }
@@ -92,39 +80,60 @@ public class ChatImageHandler {
      * @param url   url
      * @throws IOException io Exception
      */
-    public static void loadFile(byte[] input, String url) throws IOException {
+    public static void loadFile(byte[] input, String url){
         ChatImageCode.ChatImageType t = getPicType(input);
         if (t == GIF) {
             loadGif(input, url);
         } else if (t == ICO) {
-            List<BufferedImage> images;
-            images = ICODecoder.read(new ByteArrayInputStream(input));
-            AddChatImage(images.get(0), url);
+            try {
+                List<BufferedImage> images = ICODecoder.read(new ByteArrayInputStream(input));
+                AddChatImage(images.get(0), url);
+            } catch (IOException ex) {
+                AddChatImageError(url, ChatImageFrame.FrameError.FILE_LOAD_ERROR);
+            }
         } else if (t == PNG) {
-            AddChatImage(ImageIO.read(new ByteArrayInputStream(input)), url);
-        } else if (t == WEBP) {
+            try {
+                AddChatImage(ImageIO.read(new ByteArrayInputStream(input)), url);
+            } catch (IOException ex) {
+                AddChatImageError(url, ChatImageFrame.FrameError.FILE_LOAD_ERROR);
+            }
+        }
+        else{
+            AddChatImageError(url, ChatImageFrame.FrameError.IMAGE_TYPE_NOT_SUPPORT);
+        }
+//      else if (t == WEBP) {
 //                    ImageReader reader = ImageIO.getImageReadersByMIMEType("image/webp").next();
 //                    WebPReadParam readParam = new WebPReadParam();
 //                    readParam.setBypassFiltering(true);
 //                    reader.setInput(new MemoryCacheImageInputStream(new ByteArrayInputStream(input)));
 //                    BufferedImage image = reader.read(0, readParam);
-        }
+//      }
     }
 
-    public static void loadFile(InputStream input, String url) throws IOException {
+    public static void loadFile(InputStream input, String url) {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         int nRead;
         byte[] data = new byte[1024];
-        while ((nRead = input.read(data, 0, data.length)) != -1) {
-            buffer.write(data, 0, nRead);
+        try {
+            while ((nRead = input.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+            buffer.flush();
+        } catch (IOException ex) {
+            AddChatImageError(url, ChatImageFrame.FrameError.FILE_LOAD_ERROR);
+            return;
         }
-        buffer.flush();
         byte[] byteArray = buffer.toByteArray();
         loadFile(byteArray, url);
     }
 
-    public static void loadFile(String url) throws IOException {
-        loadFile(Files.newInputStream(Paths.get(url)), url);
+    public static void loadFile(String url) {
+        try {
+            // 导入url的时候已经检查过了,所以不需要再检查
+            loadFile(Files.newInputStream(Paths.get(url)), url);
+        } catch (IOException ex) {
+            AddChatImageError(url, ChatImageFrame.FrameError.FILE_LOAD_ERROR);
+        }
     }
 
     public static String bytesToHex(byte[] bytes) {

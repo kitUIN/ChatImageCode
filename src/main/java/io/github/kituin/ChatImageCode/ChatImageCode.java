@@ -2,10 +2,15 @@ package io.github.kituin.ChatImageCode;
 
 
 
+import com.google.common.collect.Lists;
 import io.github.kituin.ChatImageCode.exception.InvalidChatImageCodeException;
 import io.github.kituin.ChatImageCode.exception.InvalidChatImageUrlException;
+import javafx.util.Pair;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,7 +20,11 @@ import java.util.regex.Pattern;
  * @author kitUIN
  */
 public class ChatImageCode {
-    public static Pattern pattern = Pattern.compile("\\[\\[CICode,(.+)\\]\\]");
+    public static final Pattern pattern = Pattern.compile("\\[\\[CICode,(.+)\\]\\]");
+    public static final Pattern cicodesPattern = Pattern.compile("(\\[\\[CICode,(.*?)\\]\\])");
+    public static final Pattern cqPattern = Pattern.compile("\\[CQ:image,(.*?)\\]");
+    public static final Pattern uriPattern = Pattern.compile("(https?:\\/\\/|file:\\/\\/\\/)([^:<>\\\"]*\\/)([^:<>\\\"]*)\\.(png!thumbnail|bmp|jpe?g|gif)");
+
     /**
      * 图片缓存
      */
@@ -30,6 +39,7 @@ public class ChatImageCode {
     private final long timestamp;
     private String name = "codename.chatimage.default";
     public static TimeoutHelper timeoutHelper;
+    public static LogHelper logHelper;
 
 
 
@@ -42,7 +52,7 @@ public class ChatImageCode {
         this(new ChatImageUrl(url), null, false);
     }
 
-    public ChatImageCode(String url,String name) throws InvalidChatImageUrlException {
+    public ChatImageCode(String url, String name) throws InvalidChatImageUrlException {
         this(new ChatImageUrl(url), name, false);
     }
 
@@ -79,17 +89,61 @@ public class ChatImageCode {
      * @return Identifier
      */
     public ChatImageFrame getFrame() {
-        if(this.url != null){
-            String useUrl = this.url.getUrl();
-            if (CACHE_MAP.containsKey(useUrl)) {
-                return CACHE_MAP.get(useUrl);
-            } else {
-                return new ChatImageFrame(ChatImageFrame.FrameError.ID_NOT_FOUND);
-            }
+        if(this.url == null) return new ChatImageFrame(ChatImageFrame.FrameError.ILLEGAL_CICODE_ERROR);
+        String useUrl = this.url.getUrl();
+        if (CACHE_MAP.containsKey(useUrl)) {
+            return CACHE_MAP.get(useUrl);
+        } else {
+            return new ChatImageFrame(ChatImageFrame.FrameError.ID_NOT_FOUND);
         }
-        return new ChatImageFrame(ChatImageFrame.FrameError.ILLEGAL_CICODE_ERROR);
+
     }
 
+    public static List<Object> sliceMsg (String checkedText, boolean isSelf, Consumer<InvalidChatImageCodeException> logger) {
+        Matcher m = cicodesPattern.matcher(checkedText);
+        List<Object> res = Lists.newArrayList();
+        int lastPosition = 0;
+        while (m.find()) {
+            try {
+                ChatImageCode image = ChatImageCode.of(m.group(), isSelf);
+                if(m.start() != 0) res.add(checkedText.substring(lastPosition,m.start()));
+                lastPosition = m.end();
+                res.add(image);
+            } catch (InvalidChatImageCodeException e) {
+                logger.accept(e);
+            }
+        }
+        if(lastPosition != checkedText.length()) res.add(checkedText.substring(lastPosition));
+        return res;
+    }
+    public static String checkCQCode(String checkedText) {
+        Matcher cqm = cqPattern.matcher(checkedText);
+        while (cqm.find()) {
+            String[] cqArgs = cqm.group(1).split(",");
+            String cq_Url = "";
+            for(int i=0;i<cqArgs.length;i++){
+                String[] cqParams = cqArgs[i].split("=");
+                if("url".equals(cqParams[0])){
+                    cq_Url = cqParams[1];
+                    break;
+                }
+            }
+            if(!cq_Url.isEmpty()){
+                checkedText = checkedText.substring(0,cqm.start()) + String.format("[[CICode,url=%s]]", cq_Url) + checkedText.substring(cqm.end());
+            }
+        }
+        return checkedText;
+    }
+    public static String checkImageUri(String checkedText) {
+        Matcher matcher = uriPattern.matcher(checkedText);
+        while (matcher.find()) {
+            String url = matcher.group();
+            if(!url.isEmpty()){
+                checkedText = checkedText.substring(0,matcher.start()) + String.format("[[CICode,url=%s]]", url) + checkedText.substring(matcher.end());
+            }
+        }
+        return checkedText;
+    }
 
     /**
      * 匹配 {@link ChatImageCode}
@@ -181,8 +235,15 @@ public class ChatImageCode {
 
     @FunctionalInterface
     public interface TimeoutHelper {
-
+        /**
+         * 获取配置的超时时间
+         * @return 超时时间
+         */
         int getTimeOut();
+    }
+    @FunctionalInterface
+    public interface LogHelper {
+        void Log();
     }
 
 }

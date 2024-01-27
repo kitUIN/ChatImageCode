@@ -1,9 +1,20 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+buildscript {
+    repositories {
+        jcenter()
+        gradlePluginPortal()
+    }
+}
 plugins {
     id 'java'
     id 'maven-publish'
     id 'signing'
+
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
+
+apply plugin: 'com.github.johnrengelman.shadow'
 
 
 repositories {
@@ -13,34 +24,20 @@ repositories {
         url = "https://clojars.org/repo"
     }
 }
-
+configurations {
+    shade
+    implementation.extendsFrom shade
+}
 dependencies {
-    implementation('net.sf.image4j:image4j:0.7zensight1')
-    implementation('com.squareup.okhttp3:okhttp:3.14.9')
-    implementation('com.squareup.okio:okio:1.17.2')
+    shade 'net.sf.image4j:image4j:0.7zensight1'
+    shade 'com.squareup.okhttp3:okhttp:4.10.0'
+    shade 'com.squareup.okio:okio-jvm:3.4.0'
+    shade 'com.madgag:animated-gif-lib:1.4'
     compileOnly ('com.google.guava:guava:31.0.1-jre')
     compileOnly ('com.google.code.gson:gson:2.8.9')
-    implementation('com.madgag:animated-gif-lib:1.4')
+
 }
 
-test {
-    useJUnitPlatform()
-}
-
-
-tasks.register('fatJar', Jar) {
-    manifest.from jar.manifest
-    archiveClassifier.set('')
-    // destinationDir(new File("D:\\out"))
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    } {
-        exclude "META-INF/*.SF"
-        exclude "META-INF/*.DSA"
-        exclude "META-INF/*.RSA"
-    }
-    with jar
-}
 
 tasks.register('sourcesJar', Jar) {
     from sourceSets.main.allJava
@@ -51,6 +48,35 @@ tasks.register('javadocJar', Jar) {
     from javadoc
     archiveClassifier  = 'javadoc'
 }
+
+shadowJar {
+    archiveClassifier = ''
+    configurations = [project.configurations.shade]
+
+}
+
+assemble.dependsOn shadowJar
+
+
+test {
+    useJUnitPlatform()
+}
+
+
+//tasks.register('fatJar', Jar) {
+//    manifest.from jar.manifest
+//    archiveClassifier.set('')
+//    // destinationDir(new File("D:\\out"))
+//    from {
+//        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+//    } {
+//        exclude "META-INF/*.SF"
+//        exclude "META-INF/*.DSA"
+//        exclude "META-INF/*.RSA"
+//    }
+//    with jar
+//}
+
 
 javadoc {
     options.addStringOption("charset", "UTF-8")
@@ -64,7 +90,7 @@ publishing {
             artifactId project.name
             groupId group
             version version
-            artifact fatJar
+            artifact shadowJar
             artifact sourcesJar
             artifact javadocJar
             pom {

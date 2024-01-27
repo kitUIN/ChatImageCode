@@ -14,7 +14,14 @@ import java.util.List;
 
 public class ChatImageFrame<T> {
     private int width, height;
-    private int originalHeight, originalWidth;
+    /**
+     * 原始高度
+     */
+    private int originalHeight;
+    /**
+     * 原始宽度
+     */
+    private int originalWidth;
     private T id;
     private final List<ChatImageFrame<T>> siblings = Lists.newArrayList();
     public static TextureHelper<?> textureHelper;
@@ -22,22 +29,31 @@ public class ChatImageFrame<T> {
     private int index = 0;
     private int butter = 0;
 
-    public ChatImageFrame(InputStream image) throws IOException {
-        TextureReader<T> temp = (TextureReader<T>) textureHelper.loadTexture(image);
-        this.id = temp.getId();
-        this.originalWidth = temp.getWidth();
-        this.originalHeight = temp.getHeight();
+    public ChatImageFrame(InputStream image) {
+        try {
+            TextureReader<T> temp = (TextureReader<T>) textureHelper.loadTexture(image);
+            this.id = temp.getId();
+            this.originalWidth = temp.getWidth();
+            this.originalHeight = temp.getHeight();
+        } catch (IOException e) {
+            this.error = FrameError.FILE_LOAD_ERROR;
+        }
+
     }
 
-    public ChatImageFrame(BufferedImage image) throws IOException {
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        ImageIO.write(image, "png", os);
-        TextureReader<T> temp = (TextureReader<T>) textureHelper.loadTexture(new ByteArrayInputStream(os.toByteArray()));
-        this.id = temp.getId();
-        this.originalWidth = temp.getWidth();
-        this.originalHeight = temp.getHeight();
-    }
+    public ChatImageFrame(BufferedImage image) {
+        try {
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            ImageIO.write(image, "png", os);
+            TextureReader<T> temp = (TextureReader<T>) textureHelper.loadTexture(new ByteArrayInputStream(os.toByteArray()));
+            this.id = temp.getId();
+            this.originalWidth = temp.getWidth();
+            this.originalHeight = temp.getHeight();
+        } catch (IOException e) {
+            this.error = FrameError.FILE_LOAD_ERROR;
+        }
 
+    }
     public ChatImageFrame<T> append(ChatImageFrame<T> frame) {
         this.siblings.add(frame);
         return this;
@@ -45,6 +61,23 @@ public class ChatImageFrame<T> {
 
     public ChatImageFrame(FrameError error) {
         this.error = error;
+    }
+
+    /**
+     * 检查所有帧导入完毕
+     * @return 是否完毕
+     */
+    public boolean checkLoad()
+    {
+        if(id==null){
+            return false;
+        }
+        for (int i = 0; i < this.siblings.size(); i++) {
+            if(this.siblings.get(i).getId()==null){
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -86,6 +119,10 @@ public class ChatImageFrame<T> {
         }
     }
 
+    /**
+     * 如果Id==null,再使用该方法
+     * @return {@link FrameError}
+     */
     public FrameError getError() {
         return error;
     }
@@ -135,12 +172,44 @@ public class ChatImageFrame<T> {
     }
 
     public enum FrameError {
+        /**
+         * 找不到该文件
+         */
         FILE_NOT_FOUND,
+        /**
+         * 找不到图片材质ID
+         */
         ID_NOT_FOUND,
+        /**
+         * 文件加载错误
+         */
         FILE_LOAD_ERROR,
+        /**
+         * 未知错误
+         */
         OTHER_ERROR,
+        /**
+         * 服务器加载图片失败
+         */
         SERVER_FILE_LOAD_ERROR,
+        /**
+         * 无效的CICode格式
+         */
         ILLEGAL_CICODE_ERROR,
+        /**
+         * 不受支持的图片格式
+         */
+        IMAGE_TYPE_NOT_SUPPORT;
+
+        /**
+         * 快速转换为翻译键
+         * @return "{小写name}.chatimage.exception"
+         */
+        public String toTranslationKey()
+        {
+            String name = name();
+            return name.toLowerCase() + ".chatimage.exception";
+        }
     }
 
     public static class TextureReader<T> {
@@ -148,6 +217,9 @@ public class ChatImageFrame<T> {
         public int width;
         public int height;
 
+        /**
+         * 材质读取器,临时类
+         */
         public TextureReader(T id, int width, int height) {
             this.id = id;
             this.width = width;
@@ -169,7 +241,12 @@ public class ChatImageFrame<T> {
 
     @FunctionalInterface
     public interface TextureHelper<T> {
+        /**
+         * 不同版本的处理材质方法
+         * @param image 图片的InputStream
+         * @return 注册好的材质Texture
+         * @throws IOException 读取错误
+         */
         TextureReader<T> loadTexture(InputStream image) throws IOException;
-
     }
 }

@@ -13,6 +13,9 @@ import java.util.Map;
 import static io.github.kituin.ChatImageCode.ChatImageHandler.loadFile;
 
 public class ChatImagePacketHelper {
+    /**
+     * 单个包限制
+     */
     public static int Limit = 10000;
     /**
      * 服务器文件分块缓存URL2MAP(序号,数据)
@@ -34,7 +37,11 @@ public class ChatImagePacketHelper {
     public static Gson gson = new Gson();
 
 
-
+    /**
+     * 创建分包
+     * @param url url
+     * @param file 本地文件
+     */
     public static List<String> createFilePacket(String url, File file) {
         try (InputStream input = Files.newInputStream(file.toPath())) {
             List<String> stringList = Lists.newArrayList();
@@ -58,7 +65,6 @@ public class ChatImagePacketHelper {
             }
             return stringList;
         } catch (IOException e) {
-            e.printStackTrace();
             return Lists.newArrayList();
         }
 
@@ -68,17 +74,12 @@ public class ChatImagePacketHelper {
      * 合并文件分块
      * @param url url
      * @param blocks blocks
-     * @throws IOException IOException
      */
-    public static void mergeFileBlocks(String url,Map<Integer,ChatImageIndex> blocks) throws IOException {
+    public static void mergeFileBlocks(String url, Map<Integer,ChatImageIndex> blocks) {
         StringBuilder builder = new StringBuilder();
         for (int i = 1; i <= blocks.size(); i++) {
             builder.append(blocks.get(i).bytes);
         }
-        try {
-            ChatImageHandler.loadFile(Base64.getDecoder().decode(builder.toString()), url);
-        } catch (IOException e) {
-            throw new IOException(e);
-        }
+        ChatImageHandler.loadFile(Base64.getDecoder().decode(builder.toString()), url);
     }
 }
