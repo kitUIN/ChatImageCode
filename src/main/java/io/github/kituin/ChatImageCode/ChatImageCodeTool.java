@@ -35,7 +35,6 @@ public class ChatImageCodeTool {
     }
     /**
      * 切分文本中的CICODE
-     * 注意：该方法会改变原字符串
      * @param checkedText 检测的文本
      * @param isSelf 是否为自身发送
      * @param allString 是否检测到CICODE
@@ -44,29 +43,28 @@ public class ChatImageCodeTool {
      */
     public static List<Object> sliceMsg (String checkedText,
                                          boolean isSelf,
-                                         Boolean allString,
+                                         ChatImageBoolean allString,
                                          Consumer<InvalidChatImageCodeException> logger) {
         Matcher m = cicodesPattern.matcher(checkedText);
         List<Object> res = Lists.newArrayList();
         int lastPosition = 0;
-        allString = true;
+        allString.setValue(true);
         while (m.find()) {
             try {
                 ChatImageCode image = ChatImageCode.of(m.group(), isSelf);
                 if(m.start() != 0) res.add(checkedText.substring(lastPosition,m.start()));
                 lastPosition = m.end();
                 res.add(image);
-                allString = false;
+                allString.setValue(false);
             } catch (InvalidChatImageCodeException e) {
                 logger.accept(e);
             }
         }
-        if(lastPosition != checkedText.length() && lastPosition != 0) res.add(checkedText.substring(lastPosition));
+        if(lastPosition != checkedText.length()) res.add(checkedText.substring(lastPosition));
         return res;
     }
     /**
      * 检测文本中存在的CQCode,若存在则转为CICODE
-     * 注意：该方法会改变原字符串
      * @param checkedText 检测的文本
      * @return 新文本
      */
@@ -91,7 +89,6 @@ public class ChatImageCodeTool {
 
     /**
      * 检测文本中存在的图片链接,若存在则转为CICODE
-     * 注意：该方法会改变原字符串
      * @param checkedText 检测的文本
      * @return 新文本
      */
