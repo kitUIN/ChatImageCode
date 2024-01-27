@@ -10,10 +10,27 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ChatImageCodeTool {
+    public static final List<String> passKeys = Lists.newArrayList(
+            "chat.type.text",
+            "chat.type.emote",
+            "chat.type.announcement",
+            "commands.message.display.incoming",
+            "commands.message.display.outgoing"
+    );
     public static final Pattern cicodesPattern = Pattern.compile("(\\[\\[CICode,(.*?)\\]\\])");
     public static final Pattern cqPattern = Pattern.compile("\\[CQ:image,(.*?)\\]");
     public static final Pattern uriPattern = Pattern.compile("(https?:\\/\\/|file:\\/\\/\\/)([^:<>\\\"]*\\/)([^:<>\\\"]*)\\.(png!thumbnail|bmp|png|jpe?g|gif|ico)");
 
+
+    /**
+     * 检查key是否在白名单中
+     * @param key 翻译键
+     * @return 是否存在
+     */
+    public static boolean checkKey(String key)
+    {
+        return passKeys.stream().anyMatch(key::equals);
+    }
     /**
      *  构建消息
      * @param texts 切分后的文本列表
@@ -32,6 +49,7 @@ public class ChatImageCodeTool {
             }
         });
     }
+
     /**
      * 切分文本中的CICODE
      * @param checkedText 检测的文本
@@ -90,9 +108,10 @@ public class ChatImageCodeTool {
      * 检测文本中存在的图片链接,若存在则转为CICODE
      * @param texts 检测的文本
      * @param isSelf 是否为自身发送
+     * @param allString 是否全部为字符串
      * @return 新文本
      */
-    public static List<Object>  checkImageUri(List<Object> texts,boolean isSelf) {
+    public static List<Object> checkImageUri(List<Object> texts,boolean isSelf, ChatImageBoolean allString) {
         int i = 0;
         while (i < texts.size()){
             Object obj = texts.get(i);
@@ -124,6 +143,7 @@ public class ChatImageCodeTool {
                             texts.add(i,image);
                             i++;
                         }
+                        allString.setValue(false);
                     }catch (InvalidChatImageUrlException ignored){
                     }
                 }
