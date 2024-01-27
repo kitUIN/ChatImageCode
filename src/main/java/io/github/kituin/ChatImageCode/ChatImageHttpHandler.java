@@ -5,8 +5,6 @@ import okhttp3.*;
 import java.io.IOException;
 import java.util.HashMap;
 
-import static io.github.kituin.ChatImageCode.ChatImageHandler.loadFile;
-
 /**
  * @author kitUIN
  */

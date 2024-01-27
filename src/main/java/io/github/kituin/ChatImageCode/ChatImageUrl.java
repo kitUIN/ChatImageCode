@@ -1,15 +1,11 @@
 package io.github.kituin.ChatImageCode;
 
 import io.github.kituin.ChatImageCode.exception.InvalidChatImageUrlException;
-import java.net.URI;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.nio.file.Paths;
-import java.util.Objects;
 
-import static io.github.kituin.ChatImageCode.ChatImageHandler.loadFile;
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Objects;
 
 public class ChatImageUrl {
     private final String originalUrl;

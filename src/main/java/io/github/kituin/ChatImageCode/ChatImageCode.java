@@ -1,15 +1,12 @@
 package io.github.kituin.ChatImageCode;
 
 
-
 import com.google.common.collect.Lists;
 import io.github.kituin.ChatImageCode.exception.InvalidChatImageCodeException;
 import io.github.kituin.ChatImageCode.exception.InvalidChatImageUrlException;
-import javafx.util.Pair;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

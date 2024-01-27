@@ -3,14 +3,14 @@ package io.github.kituin.ChatImageCode;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static io.github.kituin.ChatImageCode.ChatImageHandler.loadFile;
 
 public class ChatImagePacketHelper {
     /**
