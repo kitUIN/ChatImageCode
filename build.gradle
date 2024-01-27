@@ -30,11 +30,11 @@ configurations {
 }
 dependencies {
     shade 'net.sf.image4j:image4j:0.7zensight1'
-    shade 'com.squareup.okhttp3:okhttp:4.10.0'
-    shade 'com.squareup.okio:okio-jvm:3.4.0'
+    shade 'com.squareup.okhttp3:okhttp:3.14.9'
+    shade 'com.squareup.okio:okio:1.17.2'
     shade 'com.madgag:animated-gif-lib:1.4'
-    compileOnly ('com.google.guava:guava:31.0.1-jre')
-    compileOnly ('com.google.code.gson:gson:2.8.9')
+    compileOnly 'com.google.guava:guava:31.0.1-jre'
+    compileOnly 'com.google.code.gson:gson:2.8.9'
 
 }
 
@@ -52,7 +52,10 @@ tasks.register('javadocJar', Jar) {
 shadowJar {
     archiveClassifier = ''
     configurations = [project.configurations.shade]
-
+    relocate "net.sf.image4j", "chatimage.net.sf.image4j"
+    relocate "okhttp3", "chatimage.okhttp3"
+    relocate "okio", "chatimage.okio"
+    relocate "com.madgag.gif.fmsware", "chatimage.com.madgag.gif.fmsware"
 }
 
 assemble.dependsOn shadowJar

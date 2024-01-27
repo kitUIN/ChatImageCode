@@ -18,9 +18,6 @@ import java.util.regex.Pattern;
  */
 public class ChatImageCode {
     public static final Pattern pattern = Pattern.compile("\\[\\[CICode,(.+)\\]\\]");
-    public static final Pattern cicodesPattern = Pattern.compile("(\\[\\[CICode,(.*?)\\]\\])");
-    public static final Pattern cqPattern = Pattern.compile("\\[CQ:image,(.*?)\\]");
-    public static final Pattern uriPattern = Pattern.compile("(https?:\\/\\/|file:\\/\\/\\/)([^:<>\\\"]*\\/)([^:<>\\\"]*)\\.(png!thumbnail|bmp|jpe?g|gif)");
 
     /**
      * 图片缓存
@@ -36,7 +33,6 @@ public class ChatImageCode {
     private final long timestamp;
     private String name = "codename.chatimage.default";
     public static TimeoutHelper timeoutHelper;
-    public static LogHelper logHelper;
 
 
 
@@ -96,51 +92,6 @@ public class ChatImageCode {
 
     }
 
-    public static List<Object> sliceMsg (String checkedText, boolean isSelf, Consumer<InvalidChatImageCodeException> logger) {
-        Matcher m = cicodesPattern.matcher(checkedText);
-        List<Object> res = Lists.newArrayList();
-        int lastPosition = 0;
-        while (m.find()) {
-            try {
-                ChatImageCode image = ChatImageCode.of(m.group(), isSelf);
-                if(m.start() != 0) res.add(checkedText.substring(lastPosition,m.start()));
-                lastPosition = m.end();
-                res.add(image);
-            } catch (InvalidChatImageCodeException e) {
-                logger.accept(e);
-            }
-        }
-        if(lastPosition != checkedText.length()) res.add(checkedText.substring(lastPosition));
-        return res;
-    }
-    public static String checkCQCode(String checkedText) {
-        Matcher cqm = cqPattern.matcher(checkedText);
-        while (cqm.find()) {
-            String[] cqArgs = cqm.group(1).split(",");
-            String cq_Url = "";
-            for(int i=0;i<cqArgs.length;i++){
-                String[] cqParams = cqArgs[i].split("=");
-                if("url".equals(cqParams[0])){
-                    cq_Url = cqParams[1];
-                    break;
-                }
-            }
-            if(!cq_Url.isEmpty()){
-                checkedText = checkedText.substring(0,cqm.start()) + String.format("[[CICode,url=%s]]", cq_Url) + checkedText.substring(cqm.end());
-            }
-        }
-        return checkedText;
-    }
-    public static String checkImageUri(String checkedText) {
-        Matcher matcher = uriPattern.matcher(checkedText);
-        while (matcher.find()) {
-            String url = matcher.group();
-            if(!url.isEmpty()){
-                checkedText = checkedText.substring(0,matcher.start()) + String.format("[[CICode,url=%s]]", url) + checkedText.substring(matcher.end());
-            }
-        }
-        return checkedText;
-    }
 
     /**
      * 匹配 {@link ChatImageCode}
