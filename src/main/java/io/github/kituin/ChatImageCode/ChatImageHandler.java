@@ -81,7 +81,6 @@ public class ChatImageHandler {
      *
      * @param input InputStream
      * @param url   url
-     * @throws IOException io Exception
      */
     public static void loadFile(byte[] input, String url){
         ChatImageCode.ChatImageType t = getPicType(input);

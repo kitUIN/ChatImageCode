@@ -41,6 +41,7 @@ public class ChatImagePacketHelper {
      * 创建分包
      * @param url url
      * @param file 本地文件
+     * @return 返回分包列表
      */
     public static List<String> createFilePacket(String url, File file) {
         try (InputStream input = Files.newInputStream(file.toPath())) {

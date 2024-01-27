@@ -76,10 +76,33 @@ test {
 //    }
 //    with jar
 //}
+//tasks.register('javaDoc', Javadoc) {
+//    delete("javadoc/") // 清理旧的 javadoc
+//
+//    options {
+//        encoding('UTF-8') //支持中文，避免乱码
+//        charSet('UTF-8') //支持中文，避免乱码
+//        memberLevel = JavadocMemberLevel.PUBLIC //保留 public 的方法
+//        linkSource true
+//        author false //是否保留作者
+//        noTree true //是否生成树状结构
+//        noIndex true
+//        noNavBar true
+//    }
+//
+//    source = sourceSets.main.allJava
+//    classpath += configurations.compile
+//    //classpath += files({ project(':你的模块名').sourceSets.main.compileClasspath })
+//    destinationDir = file("javadoc/")
+//
+//    failOnError false
+//}
+
 
 
 javadoc {
     options.addStringOption("charset", "UTF-8")
+    options.addStringOption("encoding", "UTF-8")
     if (JavaVersion.current().isJava9Compatible()) {
         options.addBooleanOption('html5', true)
     }

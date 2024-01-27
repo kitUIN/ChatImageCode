@@ -219,6 +219,9 @@ public class ChatImageFrame<T> {
 
         /**
          * 材质读取器,临时类
+         * @param id 不同版本的材质ID
+         * @param width 宽度
+         * @param height 高度
          */
         public TextureReader(T id, int width, int height) {
             this.id = id;
