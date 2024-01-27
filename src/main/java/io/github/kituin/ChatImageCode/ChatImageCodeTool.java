@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class ChatImageCodeTool {
     public static final Pattern cicodesPattern = Pattern.compile("(\\[\\[CICode,(.*?)\\]\\])");
     public static final Pattern cqPattern = Pattern.compile("\\[CQ:image,(.*?)\\]");
-    public static final Pattern uriPattern = Pattern.compile("(https?:\\/\\/|file:\\/\\/\\/)([^:<>\\\"]*\\/)([^:<>\\\"]*)\\.(png!thumbnail|bmp|jpe?g|gif)");
+    public static final Pattern uriPattern = Pattern.compile("(https?:\\/\\/|file:\\/\\/\\/)([^:<>\\\"]*\\/)([^:<>\\\"]*)\\.(png!thumbnail|bmp|png|jpe?g|gif|ico)");
 
     /**
      *  构建消息

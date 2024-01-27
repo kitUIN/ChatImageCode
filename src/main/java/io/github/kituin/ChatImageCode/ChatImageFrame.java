@@ -199,8 +199,11 @@ public class ChatImageFrame<T> {
         /**
          * 不受支持的图片格式
          */
-        IMAGE_TYPE_NOT_SUPPORT;
-
+        IMAGE_TYPE_NOT_SUPPORT,
+        /**
+         * 图片过大
+         */
+        FILE_TOO_LARGE;
         /**
          * 快速转换为翻译键
          * @return "{小写name}.chatimage.exception"
