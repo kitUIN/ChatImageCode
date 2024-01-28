@@ -28,7 +28,7 @@ public class ChatImageConfig {
     public boolean nsfw = false;
     public boolean cqCode = true;
     public boolean checkImageUri = true;
-    public boolean drugUseCicode = true;
+    public boolean dragUseCicode = true;
     public int timeout = 5;
     public static File configFile;
     public ChatImageConfig()
