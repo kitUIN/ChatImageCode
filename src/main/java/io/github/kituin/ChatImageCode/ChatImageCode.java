@@ -169,8 +169,12 @@ public class ChatImageCode {
         return this.url;
     }
 
-    public boolean getNsfw() {
-        return this.nsfw;
+    public boolean isNsfw() {
+        return nsfw;
+    }
+
+    public void setNsfw(boolean nsfw) {
+        this.nsfw = nsfw;
     }
 
     @Override

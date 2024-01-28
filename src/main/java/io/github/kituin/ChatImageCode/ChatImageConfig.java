@@ -31,9 +31,10 @@ public class ChatImageConfig {
     public boolean dragUseCicode = true;
     public int timeout = 5;
     public static File configFile;
-    public ChatImageConfig()
+    public ChatImageConfig() { }
+    public void save()
     {
-
+        ChatImageConfig.saveConfig(this);
     }
     public static ChatImageConfig loadConfig() {
         try {
