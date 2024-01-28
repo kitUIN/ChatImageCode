@@ -1,16 +1,16 @@
 package io.github.kituin.ChatImageCode;
 
-import io.github.kituin.ChatImageCode.exception.InvalidChatImageUrlException;
-
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
 
+import static io.github.kituin.ChatImageCode.ChatImageHandler.AddChatImageError;
+
 public class ChatImageUrl {
-    private final String originalUrl;
+    private String originalUrl = "";
     private String httpUrl;
-    private final UrlMethod urlMethod;
+    private UrlMethod urlMethod = UrlMethod.UNKNOWN;
     private String fileUrl;
     public static NetworkHelper networkHelper;
     public static CachePathHelper cachePathHelper;
@@ -22,16 +22,20 @@ public class ChatImageUrl {
     public interface CachePathHelper {
         void check();
     }
-    private static URI loadUri(String url) throws InvalidChatImageUrlException {
-        try {
-            return new URI(url.replace("\\", "/"));
-        } catch (URISyntaxException e) {
-            throw new InvalidChatImageUrlException(url + "<- this url is invalid, Please Check again",
-                    InvalidChatImageUrlException.InvalidUrlMode.NotFound);
+
+    public ChatImageUrl(String url) {
+        if(url == null) {
+            AddChatImageError(url, ChatImageFrame.FrameError.INVALID_URL);
+            return;
         }
-    }
-    public ChatImageUrl(URI uri) throws InvalidChatImageUrlException {
-        this.originalUrl = uri.toString();
+        this.originalUrl = url.replace("\\", "/");
+        URI uri;
+        try {
+            uri = new URI(this.originalUrl);
+        } catch (URISyntaxException e) {
+            AddChatImageError(this.originalUrl, ChatImageFrame.FrameError.INVALID_URL);
+            return;
+        }
         cachePathHelper.check();
         if (Objects.equals(uri.getScheme(), "https") ||
                 Objects.equals(uri.getScheme(), "http")) {
@@ -40,8 +44,7 @@ public class ChatImageUrl {
             if (!ChatImageCode.CACHE_MAP.containsKey(this.httpUrl)) {
                 boolean f = ChatImageHttpHandler.getInputStream(this.httpUrl);
                 if (!f) {
-                    throw new InvalidChatImageUrlException("Invalid HTTP URL",
-                            InvalidChatImageUrlException.InvalidUrlMode.HttpNotFound);
+                    AddChatImageError(this.httpUrl, ChatImageFrame.FrameError.INVALID_HTTP_URL);
                 }
             }
         } else if (Objects.equals(uri.getScheme(), "file")) {
@@ -56,12 +59,8 @@ public class ChatImageUrl {
                 networkHelper.send(this.fileUrl, file, fileExist);
             }
         } else {
-            throw new InvalidChatImageUrlException(originalUrl + "<- this url is invalid, Please Check again",
-                    InvalidChatImageUrlException.InvalidUrlMode.NotFound);
+            AddChatImageError(this.originalUrl, ChatImageFrame.FrameError.INVALID_URL);
         }
-    }
-    public ChatImageUrl(String url) throws InvalidChatImageUrlException {
-        this(loadUri(url));
     }
 
     public String getOriginalUrl() {
@@ -73,11 +72,13 @@ public class ChatImageUrl {
     }
 
     public String getUrl() {
-        if(urlMethod == UrlMethod.FILE){
-            return fileUrl;
-        }
-        else {
-            return httpUrl;
+        switch (urlMethod) {
+            case HTTP:
+                return httpUrl;
+            case FILE:
+                return fileUrl;
+            default:
+                return originalUrl;
         }
     }
 
@@ -99,6 +100,7 @@ public class ChatImageUrl {
          * http(s)格式
          */
         HTTP,
+        UNKNOWN,
     }
 
 }

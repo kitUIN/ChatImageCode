@@ -1,13 +1,9 @@
 package io.github.kituin.ChatImageCode;
 
 
-import com.google.common.collect.Lists;
 import io.github.kituin.ChatImageCode.exception.InvalidChatImageCodeException;
-import io.github.kituin.ChatImageCode.exception.InvalidChatImageUrlException;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,9 +25,13 @@ public class ChatImageCode {
     public static HashMap<String, Integer> NSFW_MAP = new HashMap<>();
     private ChatImageUrl url = null;
     private boolean nsfw = false;
+
+    private String name = "codename.chatimage.default";
+
+    private String prefix = "[";
+    private String suffix = "]";
     private final boolean isSelf;
     private final long timestamp;
-    private String name = "codename.chatimage.default";
     public static TimeoutHelper timeoutHelper;
 
 
@@ -41,22 +41,39 @@ public class ChatImageCode {
         this.timestamp = System.currentTimeMillis();
     }
 
-    public ChatImageCode(String url) throws InvalidChatImageUrlException {
-        this(new ChatImageUrl(url), null, false);
+
+    public ChatImageCode(String url) {
+        this(new ChatImageUrl(url), null,null, null, false);
     }
 
-    public ChatImageCode(String url, String name) throws InvalidChatImageUrlException {
-        this(new ChatImageUrl(url), name, false);
-    }
-    public ChatImageCode(String url, boolean isSelf) throws InvalidChatImageUrlException {
-        this(new ChatImageUrl(url), null, isSelf);
+    public ChatImageCode(String url, boolean isSelf) {
+        this(new ChatImageUrl(url), null, null, null, isSelf);
     }
 
-    public ChatImageCode(ChatImageUrl url, String name, boolean isSelf) {
+    public ChatImageCode(String url, String name) {
+        this(new ChatImageUrl(url), name,null, null, false);
+    }
+
+    public ChatImageCode(String url, String name, boolean isSelf) {
+        this(new ChatImageUrl(url), name,null, null, isSelf);
+    }
+    public ChatImageCode(String url, String prefix, String suffix) {
+        this(new ChatImageUrl(url), null, prefix, suffix, false);
+    }
+    public ChatImageCode(String url, String prefix, String suffix, boolean isSelf) {
+        this(new ChatImageUrl(url), null, prefix, suffix, isSelf);
+    }
+    public ChatImageCode(String url, String name, String prefix, String suffix) {
+        this(new ChatImageUrl(url), name, prefix, suffix, false);
+    }
+    public ChatImageCode(String url, String name, String prefix, String suffix, boolean isSelf) {
+        this(new ChatImageUrl(url), name, prefix, suffix, isSelf);
+    }
+    public ChatImageCode(ChatImageUrl url, String name, String prefix, String suffix, boolean isSelf) {
         this.url = url;
-        if (name != null) {
-            this.name = name;
-        }
+        if (name != null) this.name = name;
+        if (prefix != null) this.prefix = prefix;
+        if (suffix != null) this.suffix = suffix;
         this.timestamp = System.currentTimeMillis();
         this.isSelf = isSelf;
     }
@@ -65,14 +82,11 @@ public class ChatImageCode {
      * 从字符串 加载 {@link ChatImageCode}
      *
      * @param code 字符串模式的 {@link ChatImageCode}
+     * @param self 是否是自己发送的
      * @return {@link ChatImageCode}
-     * @throws InvalidChatImageCodeException 加载失败
+     * @throws InvalidChatImageCodeException 识别失败
      */
-    public static ChatImageCode of(String code) throws InvalidChatImageCodeException {
-        return ChatImageCode.of(code, false);
-    }
-
-    public static ChatImageCode of(String code, boolean self) throws InvalidChatImageCodeException {
+    public static ChatImageCode fromCode(String code, boolean self) throws InvalidChatImageCodeException {
         ChatImageCode chatImageCode = new ChatImageCode(self);
         chatImageCode.match(code);
         return chatImageCode;
@@ -120,17 +134,22 @@ public class ChatImageCode {
         for (String raw : raws) {
             String[] temps = raw.split("=", 2);
             if (temps.length == 2) {
-                String value = temps[0].trim();
-                if(value.equals("url")){
-                    try {
+                switch (temps[0].trim()) {
+                    case "url":
                         this.url = new ChatImageUrl(temps[1].trim());
-                    } catch (InvalidChatImageUrlException e ) {
-                        throw new InvalidChatImageCodeException(e.getMessage(), e.getMode());
-                    }
-                }else if(value.equals("nsfw")){
-                    this.nsfw = Boolean.parseBoolean(temps[1].trim());
-                }else if(value.equals("name")){
-                    this.name = temps[1].trim();
+                        break;
+                    case "nsfw":
+                        this.nsfw = Boolean.parseBoolean(temps[1].trim());
+                        break;
+                    case "name":
+                        this.name = temps[1].trim();
+                        break;
+                    case "pre":
+                        this.prefix = temps[1];
+                        break;
+                    case "suf":
+                        this.suffix = temps[1];
+                        break;
                 }
             } else {
                 throw new InvalidChatImageCodeException(raw + "<-can not match the value of ChatImageCode, Please Recheck");
@@ -157,16 +176,16 @@ public class ChatImageCode {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("[[CICode,url=").append(this.url.getOriginalUrl());
+        sb.append("[[CICode");
         if (nsfw) {
             sb.append(",nsfw=true");
         }
         if (name != null) {
             sb.append(",name=").append(name);
         }
+        sb.append(",url=").append(this.url.getOriginalUrl());
         return sb.append("]]").toString();
     }
-
     public String getName() {
         return this.name;
     }
@@ -175,6 +194,13 @@ public class ChatImageCode {
         return isSelf;
     }
 
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public String getSuffix() {
+        return suffix;
+    }
 
     public boolean isTimeout() {
         return System.currentTimeMillis() > this.timestamp + 1000L * timeoutHelper.getTimeOut();
@@ -191,10 +217,6 @@ public class ChatImageCode {
          * @return 超时时间
          */
         int getTimeOut();
-    }
-    @FunctionalInterface
-    public interface LogHelper {
-        void Log();
     }
 
 }

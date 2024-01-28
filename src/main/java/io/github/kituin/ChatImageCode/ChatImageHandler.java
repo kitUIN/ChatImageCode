@@ -65,8 +65,11 @@ public class ChatImageHandler {
                 frame.append(new ChatImageFrame<>(gd.getFrame(i)));
             }
             // 检查gif所有的帧是否加载成功
-            frame.checkLoad();
-            CACHE_MAP.put(url, frame);
+            if(frame.checkLoad()){
+                AddChatImage(frame,url);
+            }else{
+                AddChatImageError(url, ChatImageFrame.FrameError.FILE_LOAD_ERROR);
+            }
             return null;
         });
     }

@@ -2,7 +2,6 @@ package io.github.kituin.ChatImageCode;
 
 import com.google.common.collect.Lists;
 import io.github.kituin.ChatImageCode.exception.InvalidChatImageCodeException;
-import io.github.kituin.ChatImageCode.exception.InvalidChatImageUrlException;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -68,7 +67,7 @@ public class ChatImageCodeTool {
         allString.setValue(true);
         while (m.find()) {
             try {
-                ChatImageCode image = ChatImageCode.of(m.group(), isSelf);
+                ChatImageCode image = ChatImageCode.fromCode(m.group(), isSelf);
                 if(m.start() != 0) res.add(checkedText.substring(lastPosition,m.start()));
                 lastPosition = m.end();
                 res.add(image);
@@ -111,7 +110,7 @@ public class ChatImageCodeTool {
      * @param allString 是否全部为字符串
      * @return 新文本
      */
-    public static List<Object> checkImageUri(List<Object> texts,boolean isSelf, ChatImageBoolean allString) {
+    public static List<Object> checkImageUri(List<Object> texts, boolean isSelf, ChatImageBoolean allString) {
         int i = 0;
         while (i < texts.size()){
             Object obj = texts.get(i);
@@ -123,29 +122,26 @@ public class ChatImageCodeTool {
                 boolean first = true;
                 while (matcher.find()) {
                     String url = matcher.group();
-                    try{
-                        ChatImageCode image = new ChatImageCode(url,isSelf);
-                        if(matcher.start() != 0)
-                        {
-                            if(first){
-                                texts.set(i-1,checkedText.substring(lastPosition, matcher.start()));
-                                first = false;
-                            }else{
-                                texts.add(i,checkedText.substring(lastPosition, matcher.start()));
-                                i++;
-                            }
-                        }
-                        lastPosition = matcher.end();
+                    ChatImageCode image = new ChatImageCode(url,isSelf);
+                    if(matcher.start() != 0)
+                    {
                         if(first){
-                            texts.set(i-1,image);
+                            texts.set(i-1,checkedText.substring(lastPosition, matcher.start()));
                             first = false;
                         }else{
-                            texts.add(i,image);
+                            texts.add(i,checkedText.substring(lastPosition, matcher.start()));
                             i++;
                         }
-                        allString.setValue(false);
-                    }catch (InvalidChatImageUrlException ignored){
                     }
+                    lastPosition = matcher.end();
+                    if(first){
+                        texts.set(i-1,image);
+                        first = false;
+                    }else{
+                        texts.add(i,image);
+                        i++;
+                    }
+                    allString.setValue(false);
                 }
                 if(lastPosition != checkedText.length() && lastPosition != 0) {
                     texts.add(i, checkedText.substring(lastPosition));

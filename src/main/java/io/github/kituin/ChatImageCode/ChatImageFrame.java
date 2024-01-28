@@ -13,7 +13,14 @@ import java.math.RoundingMode;
 import java.util.List;
 
 public class ChatImageFrame<T> {
-    private int width, height;
+    /**
+     * 设定宽度
+     */
+    private int width;
+    /**
+     * 设定高度
+     */
+    private int height;
     /**
      * 原始高度
      */
@@ -22,11 +29,29 @@ public class ChatImageFrame<T> {
      * 原始宽度
      */
     private int originalWidth;
+    /**
+     * 不同版本mc的材质ID
+     */
     private T id;
+    /**
+     * 若是gif,则包含除第一帧外的剩余
+     */
     private final List<ChatImageFrame<T>> siblings = Lists.newArrayList();
+    /**
+     * 材质加载器,用于不同版本mc的载入图片
+     */
     public static TextureHelper<?> textureHelper;
+    /**
+     * 报错
+     */
     private FrameError error = FrameError.LOADING;
+    /**
+     * gif的帧序号
+     */
     private int index = 0;
+    /**
+     * 若是gif,表示当前帧已经停留序号,等于gifSpeed则下一帧
+     */
     private int butter = 0;
 
     public ChatImageFrame(InputStream image) {
@@ -54,14 +79,15 @@ public class ChatImageFrame<T> {
         }
 
     }
+    public ChatImageFrame(FrameError error) {
+        this.error = error;
+    }
+
     public ChatImageFrame<T> append(ChatImageFrame<T> frame) {
         this.siblings.add(frame);
         return this;
     }
 
-    public ChatImageFrame(FrameError error) {
-        this.error = error;
-    }
 
     /**
      * 检查所有帧导入完毕
@@ -69,7 +95,7 @@ public class ChatImageFrame<T> {
      */
     public boolean checkLoad()
     {
-        if(id==null){
+        if(id == null){
             return false;
         }
         for (int i = 0; i < this.siblings.size(); i++) {
@@ -87,9 +113,7 @@ public class ChatImageFrame<T> {
      * @return 载入成功返回true, 失败则为false
      */
     public boolean loadImage(int limitWidth, int limitHeight) {
-        if (id == null) {
-            return false;
-        }
+        if (id == null) return false;
         if (index == 0) {
             limitSize(limitWidth, limitHeight);
         } else {
@@ -171,6 +195,23 @@ public class ChatImageFrame<T> {
         this.butter = butter;
     }
 
+    /**
+     * GIF动图循环
+     * @param gifSpeed gif速率
+     * @return this
+     */
+    public ChatImageFrame gifLoop(int gifSpeed) {
+        int gifLength = this.siblings.size();
+        if (gifLength != 0) {
+            if (this.butter == gifSpeed) {
+                this.index = ((this.index + 1) % ( gifLength + 1));
+                this.butter = 0;
+            } else {
+                this.butter = ((this.butter + 1) % (gifSpeed + 1));
+            }
+        }
+        return this;
+    }
     public enum FrameError {
         /**
          * 找不到该文件
@@ -205,9 +246,18 @@ public class ChatImageFrame<T> {
          */
         IMAGE_TYPE_NOT_SUPPORT,
         /**
+         * 无效的HTTP链接
+         */
+        INVALID_HTTP_URL,
+        /**
+         * 无效的链接
+         */
+        INVALID_URL,
+        /**
          * 图片过大
          */
         FILE_TOO_LARGE;
+
         /**
          * 快速转换为翻译键
          * @return "{小写name}.chatimage.exception"
@@ -219,6 +269,10 @@ public class ChatImageFrame<T> {
         }
     }
 
+    /**
+     * 材质读取器,临时类
+     * @param <T> 材质ID类
+     */
     public static class TextureReader<T> {
         public T id;
         public int width;
@@ -252,7 +306,7 @@ public class ChatImageFrame<T> {
     @FunctionalInterface
     public interface TextureHelper<T> {
         /**
-         * 不同版本的处理材质方法
+         * 不同版本的处理材质方法,请自己实现
          * @param image 图片的InputStream
          * @return 注册好的材质Texture
          * @throws IOException 读取错误
