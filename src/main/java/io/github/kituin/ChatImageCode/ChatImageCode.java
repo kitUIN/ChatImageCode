@@ -89,7 +89,8 @@ public class ChatImageCode {
         if (CACHE_MAP.containsKey(useUrl)) {
             return CACHE_MAP.get(useUrl);
         } else {
-            return new ChatImageFrame(ChatImageFrame.FrameError.ID_NOT_FOUND);
+            // return new ChatImageFrame(ChatImageFrame.FrameError.ID_NOT_FOUND);
+            return new ChatImageFrame(ChatImageFrame.FrameError.LOADING);
         }
 
     }

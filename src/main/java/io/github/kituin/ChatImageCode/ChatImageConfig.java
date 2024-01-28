@@ -16,7 +16,7 @@ public class ChatImageConfig {
             .disableHtmlEscaping().setLenient().setPrettyPrinting()
             .create();
 
-    public String cachePath = "ChatImageDownloads";
+    public String cachePath = "ChatImageCache";
 
     public int limitWidth = 125;
     public int limitHeight = 125;
@@ -28,6 +28,7 @@ public class ChatImageConfig {
     public boolean nsfw = false;
     public boolean cqCode = true;
     public boolean checkImageUri = true;
+    public boolean drugUseCicode = true;
     public int timeout = 5;
     public static File configFile;
     public ChatImageConfig()

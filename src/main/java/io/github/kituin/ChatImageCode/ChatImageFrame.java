@@ -25,7 +25,7 @@ public class ChatImageFrame<T> {
     private T id;
     private final List<ChatImageFrame<T>> siblings = Lists.newArrayList();
     public static TextureHelper<?> textureHelper;
-    private FrameError error = FrameError.OTHER_ERROR;
+    private FrameError error = FrameError.LOADING;
     private int index = 0;
     private int butter = 0;
 
@@ -188,6 +188,10 @@ public class ChatImageFrame<T> {
          * 未知错误
          */
         OTHER_ERROR,
+        /**
+         * 加载中
+         */
+        LOADING,
         /**
          * 服务器加载图片失败
          */
