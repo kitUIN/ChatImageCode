@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ChatImagePacketHelper {
+public class ServerStorage {
     /**
      * 单个包限制
      */
@@ -30,10 +30,8 @@ public class ChatImagePacketHelper {
      * 广播列表 URL2List(UUID)
      */
     public static HashMap<String, List<String>> USER_CACHE_MAP = new HashMap<>();
-    /**
-     * 用户本地分块缓存
-     */
-    public static HashMap<String, HashMap<Integer, ChatImageIndex>> CLIENT_CACHE_MAP = new HashMap<>();
+
+
     public static Gson gson = new Gson();
 
 
@@ -81,6 +79,6 @@ public class ChatImagePacketHelper {
         for (int i = 1; i <= blocks.size(); i++) {
             builder.append(blocks.get(i).bytes);
         }
-        ChatImageHandler.loadFile(Base64.getDecoder().decode(builder.toString()), url);
+        FileImageHandler.loadFile(Base64.getDecoder().decode(builder.toString()), url);
     }
 }

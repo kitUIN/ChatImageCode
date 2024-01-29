@@ -1,12 +1,17 @@
 package io.github.kituin.ChatImageCode;
 
 
+import io.github.kituin.ChatImageCode.enums.UrlMethod;
 import io.github.kituin.ChatImageCode.exception.InvalidChatImageCodeException;
 
-import java.util.HashMap;
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.ADAPTER;
 
 
 /**
@@ -15,81 +20,21 @@ import java.util.regex.Pattern;
 public class ChatImageCode {
     public static final Pattern pattern = Pattern.compile("\\[\\[CICode,(.+)\\]\\]");
 
-    /**
-     * 图片缓存
-     */
-    public static HashMap<String, ChatImageFrame> CACHE_MAP = new HashMap<>();
-    /**
-     * NSFW列表
-     */
-    public static HashMap<String, Integer> NSFW_MAP = new HashMap<>();
-    private ChatImageUrl url = null;
+    private String url = null;
     private boolean nsfw = false;
 
     private String name = "codename.chatimage.default";
 
     private String prefix = "[";
     private String suffix = "]";
-    private final boolean isSelf;
+    private boolean isSelf = false;
     private final long timestamp;
-    public static TimeoutHelper timeoutHelper;
-
-
-
-    ChatImageCode(boolean isSelf) {
-        this.isSelf = isSelf;
+    private String httpUrl;
+    private UrlMethod urlMethod = UrlMethod.UNKNOWN;
+    private String fileUrl;
+    private
+    ChatImageCode() {
         this.timestamp = System.currentTimeMillis();
-    }
-
-
-    public ChatImageCode(String url) {
-        this(new ChatImageUrl(url), null,null, null, false);
-    }
-
-    public ChatImageCode(String url, boolean isSelf) {
-        this(new ChatImageUrl(url), null, null, null, isSelf);
-    }
-
-    public ChatImageCode(String url, String name) {
-        this(new ChatImageUrl(url), name,null, null, false);
-    }
-
-    public ChatImageCode(String url, String name, boolean isSelf) {
-        this(new ChatImageUrl(url), name,null, null, isSelf);
-    }
-    public ChatImageCode(String url, String prefix, String suffix) {
-        this(new ChatImageUrl(url), null, prefix, suffix, false);
-    }
-    public ChatImageCode(String url, String prefix, String suffix, boolean isSelf) {
-        this(new ChatImageUrl(url), null, prefix, suffix, isSelf);
-    }
-    public ChatImageCode(String url, String name, String prefix, String suffix) {
-        this(new ChatImageUrl(url), name, prefix, suffix, false);
-    }
-    public ChatImageCode(String url, String name, String prefix, String suffix, boolean isSelf) {
-        this(new ChatImageUrl(url), name, prefix, suffix, isSelf);
-    }
-    public ChatImageCode(ChatImageUrl url, String name, String prefix, String suffix, boolean isSelf) {
-        this.url = url;
-        if (name != null) this.name = name;
-        if (prefix != null) this.prefix = prefix;
-        if (suffix != null) this.suffix = suffix;
-        this.timestamp = System.currentTimeMillis();
-        this.isSelf = isSelf;
-    }
-
-    /**
-     * 从字符串 加载 {@link ChatImageCode}
-     *
-     * @param code 字符串模式的 {@link ChatImageCode}
-     * @param self 是否是自己发送的
-     * @return {@link ChatImageCode}
-     * @throws InvalidChatImageCodeException 识别失败
-     */
-    public static ChatImageCode fromCode(String code, boolean self) throws InvalidChatImageCodeException {
-        ChatImageCode chatImageCode = new ChatImageCode(self);
-        chatImageCode.match(code);
-        return chatImageCode;
     }
 
     /**
@@ -99,14 +44,9 @@ public class ChatImageCode {
      */
     public ChatImageFrame getFrame() {
         if(this.url == null) return new ChatImageFrame(ChatImageFrame.FrameError.ILLEGAL_CICODE_ERROR);
-        String useUrl = this.url.getUrl();
-        if (CACHE_MAP.containsKey(useUrl)) {
-            return CACHE_MAP.get(useUrl);
-        } else {
-            // return new ChatImageFrame(ChatImageFrame.FrameError.ID_NOT_FOUND);
-            return new ChatImageFrame(ChatImageFrame.FrameError.LOADING);
-        }
-
+        ChatImageFrame frame = ClientStorage.getImage(this.getUrl());
+        if (frame == null) return new ChatImageFrame(ChatImageFrame.FrameError.LOADING);
+        return frame;
     }
 
 
@@ -136,7 +76,7 @@ public class ChatImageCode {
             if (temps.length == 2) {
                 switch (temps[0].trim()) {
                     case "url":
-                        this.url = new ChatImageUrl(temps[1].trim());
+                        checkUrl(temps[1].trim());
                         break;
                     case "nsfw":
                         this.nsfw = Boolean.parseBoolean(temps[1].trim());
@@ -161,22 +101,64 @@ public class ChatImageCode {
     }
 
 
-    public String getOriginalUrl() {
-        return this.url.getOriginalUrl();
+
+    public String getUrl() {
+        switch (urlMethod) {
+            case HTTP:
+                return httpUrl;
+            case FILE:
+                return fileUrl;
+            default:
+                return url;
+        }
     }
 
-    public ChatImageUrl getChatImageUrl() {
-        return this.url;
+    /**
+     * 检查Url
+     * @param url
+     */
+    public void checkUrl(String url) {
+        if(url == null) {
+            ClientStorage.AddImageError(url, ChatImageFrame.FrameError.INVALID_URL);
+            return;
+        }
+        this.url = url.replace("\\", "/");
+        URI uri;
+        try {
+            uri = new URI(this.url);
+        } catch (URISyntaxException e) {
+            ClientStorage.AddImageError(this.url, ChatImageFrame.FrameError.INVALID_URL);
+            return;
+        }
+        ADAPTER.checkCachePath();
+        if (Objects.equals(uri.getScheme(), "https") ||
+                Objects.equals(uri.getScheme(), "http")) {
+            this.urlMethod = UrlMethod.HTTP;
+            this.httpUrl = uri.toString();
+            if (!ClientStorage.ContainImage(this.httpUrl)) {
+                boolean f = HttpImageHandler.request(this.httpUrl);
+                if (!f) {
+                    ClientStorage.AddImageError(this.httpUrl, ChatImageFrame.FrameError.INVALID_HTTP_URL);
+                }
+            }
+        } else if (Objects.equals(uri.getScheme(), "file")) {
+            this.urlMethod = UrlMethod.FILE;
+            this.fileUrl = uri.toString().replace("file:///","");
+            File file = new File(this.fileUrl);
+            if (!ClientStorage.ContainImage(this.fileUrl)) {
+                boolean fileExist = file.exists();
+                if (fileExist) {
+                    FileImageHandler.loadFile(this.fileUrl);
+                }
+                ADAPTER.sendPacket(this.fileUrl, file, fileExist);
+            }
+        } else {
+            ClientStorage.AddImageError(this.url, ChatImageFrame.FrameError.INVALID_URL);
+        }
     }
-
-    public boolean isNsfw() {
-        return nsfw;
+    public void retry() {
+        checkUrl(this.url);
     }
-
-    public void setNsfw(boolean nsfw) {
-        this.nsfw = nsfw;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -187,13 +169,15 @@ public class ChatImageCode {
         if (name != null) {
             sb.append(",name=").append(name);
         }
-        sb.append(",url=").append(this.url.getOriginalUrl());
+        sb.append(",url=").append(this.url);
         return sb.append("]]").toString();
     }
     public String getName() {
         return this.name;
     }
-
+    public boolean isNsfw() {
+        return nsfw;
+    }
     public boolean isSendFromSelf() {
         return isSelf;
     }
@@ -207,20 +191,88 @@ public class ChatImageCode {
     }
 
     public boolean isTimeout() {
-        return System.currentTimeMillis() > this.timestamp + 1000L * timeoutHelper.getTimeOut();
+        return System.currentTimeMillis() > this.timestamp + 1000L * ADAPTER.getTimeOut();
     }
 
-    public enum ChatImageType {
-        GIF, PNG, ICO, WEBP
-    }
 
-    @FunctionalInterface
-    public interface TimeoutHelper {
+
+    public static class Builder {
+        private final ChatImageCode code;
+        public Builder(){
+            this.code = new ChatImageCode();
+        }
+
+        public ChatImageCode build() {
+            return code;
+        }
+
         /**
-         * 获取配置的超时时间
-         * @return 超时时间
+         * 从字符串 加载 {@link ChatImageCode}
+         *
+         * @param ciCode 字符串模式的 {@link ChatImageCode}
+         * @return {@link ChatImageCode}
+         * @throws InvalidChatImageCodeException 识别失败
          */
-        int getTimeOut();
-    }
+        public Builder fromCode(String ciCode) throws InvalidChatImageCodeException {
+            code.match(ciCode);
+            return this;
+        }
+        /**
+         * 设置name
+         * @param name name
+         * @return  {@link Builder}
+         */
+        public Builder setName(String name) {
+            code.name = name;
+            return this;
+        }
+        /**
+         * 设置url
+         * @param url url
+         * @return  {@link Builder}
+         */
+        public Builder setUrl(String url) {
+            code.checkUrl(url);
+            return this;
+        }
 
+        /**
+         * 设置nsfw
+         * @param nsfw 是否时nsfw
+         * @return  {@link Builder}
+         */
+        public Builder setNsfw(boolean nsfw) {
+            code.nsfw = nsfw;
+            return this;
+        }
+
+        /**
+         * 设置是否自己发送
+         * @param isSelf 是否自己发送
+         * @return {@link Builder}
+         */
+        public Builder setIsSelf(boolean isSelf) {
+            code.isSelf = isSelf;
+            return this;
+        }
+        /**
+         * 设置前缀
+         * @param prefix 前缀
+         * @return {@link Builder}
+         */
+        public Builder setPrefix(String prefix) {
+            code.prefix = prefix;
+            return this;
+        }
+
+        /**
+         * 设置后缀
+         * @param suffix 后缀
+         * @return {@link Builder}
+         */
+        public Builder setSuffix(String suffix) {
+            code.suffix = suffix;
+            return this;
+        }
+    }
 }

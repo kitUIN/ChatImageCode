@@ -8,11 +8,14 @@ import java.util.HashMap;
 /**
  * @author kitUIN
  */
-public class ChatImageHttpHandler {
-    public static HashMap<String, Integer> HTTPS_MAP = new HashMap<>();
+public class HttpImageHandler {
 
-    public static boolean getInputStream(String url) {
-        OkHttpClient httpClient = new OkHttpClient();
+    public static HashMap<String, Integer> HTTPS_MAP = new HashMap<>();
+    public static OkHttpClient HTTP_CLIENT = new OkHttpClient();
+
+
+    public static boolean request(String url) {
+
         Request getRequest;
         try {
             getRequest = new Request.Builder()
@@ -27,7 +30,7 @@ public class ChatImageHttpHandler {
         } else {
             HTTPS_MAP.put(url, 1);
         }
-        httpClient.newCall(getRequest).enqueue(new Callback() {
+        HTTP_CLIENT.newCall(getRequest).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 HTTPS_MAP.put(url, 2);
@@ -39,7 +42,7 @@ public class ChatImageHttpHandler {
                 ResponseBody body = response.body();
                 if (body != null) {
                     try {
-                        ChatImageHandler.loadFile(body.bytes(), url);
+                        FileImageHandler.loadFile(body.bytes(), url);
                     } catch (IOException ignored) {
 
                     }
@@ -50,6 +53,7 @@ public class ChatImageHttpHandler {
         return true;
 
     }
+
 
 
 }

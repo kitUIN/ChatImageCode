@@ -12,6 +12,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
+import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.ADAPTER;
+
 public class ChatImageFrame<T> {
     /**
      * 设定宽度
@@ -38,10 +40,6 @@ public class ChatImageFrame<T> {
      */
     private final List<ChatImageFrame<T>> siblings = Lists.newArrayList();
     /**
-     * 材质加载器,用于不同版本mc的载入图片
-     */
-    public static TextureHelper<?> textureHelper;
-    /**
      * 报错
      */
     private FrameError error = FrameError.LOADING;
@@ -56,7 +54,7 @@ public class ChatImageFrame<T> {
 
     public ChatImageFrame(InputStream image) {
         try {
-            TextureReader<T> temp = (TextureReader<T>) textureHelper.loadTexture(image);
+            TextureReader<T> temp = ADAPTER.loadTexture(image);
             this.id = temp.getId();
             this.originalWidth = temp.getWidth();
             this.originalHeight = temp.getHeight();
@@ -65,19 +63,17 @@ public class ChatImageFrame<T> {
         }
 
     }
-
     public ChatImageFrame(BufferedImage image) {
         try {
             ByteArrayOutputStream os = new ByteArrayOutputStream();
             ImageIO.write(image, "png", os);
-            TextureReader<T> temp = (TextureReader<T>) textureHelper.loadTexture(new ByteArrayInputStream(os.toByteArray()));
+            TextureReader<T> temp = ADAPTER.loadTexture(new ByteArrayInputStream(os.toByteArray()));
             this.id = temp.getId();
             this.originalWidth = temp.getWidth();
             this.originalHeight = temp.getHeight();
         } catch (IOException e) {
             this.error = FrameError.FILE_LOAD_ERROR;
         }
-
     }
     public ChatImageFrame(FrameError error) {
         this.error = error;
@@ -303,14 +299,4 @@ public class ChatImageFrame<T> {
         }
     }
 
-    @FunctionalInterface
-    public interface TextureHelper<T> {
-        /**
-         * 不同版本的处理材质方法,请自己实现
-         * @param image 图片的InputStream
-         * @return 注册好的材质Texture
-         * @throws IOException 读取错误
-         */
-        TextureReader<T> loadTexture(InputStream image) throws IOException;
-    }
 }

@@ -8,6 +8,8 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.createBuilder;
+
 public class ChatImageCodeTool {
     public static final List<String> passKeys = Lists.newArrayList(
             "chat.type.text",
@@ -67,7 +69,7 @@ public class ChatImageCodeTool {
         allString.setValue(true);
         while (m.find()) {
             try {
-                ChatImageCode image = ChatImageCode.fromCode(m.group(), isSelf);
+                ChatImageCode image = createBuilder().fromCode(m.group()).setIsSelf(isSelf).build();
                 if(m.start() != 0) res.add(checkedText.substring(lastPosition,m.start()));
                 lastPosition = m.end();
                 res.add(image);
@@ -122,7 +124,7 @@ public class ChatImageCodeTool {
                 boolean first = true;
                 while (matcher.find()) {
                     String url = matcher.group();
-                    ChatImageCode image = new ChatImageCode(url,isSelf);
+                    ChatImageCode image = createBuilder().setUrl(url).setIsSelf(isSelf).build();
                     if(matcher.start() != 0)
                     {
                         if(first){
