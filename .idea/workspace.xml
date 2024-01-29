@@ -4,24 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0eaf0ddb-0d5f-42df-884f-109798307eb6" name="变更" comment="能够修改nsfw">
-      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageCodeInstance.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ClientStorage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/IChatImageAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/enums/ChatImageType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/enums/UrlMethod.java" afterDir="false" />
+    <list default="true" id="0eaf0ddb-0d5f-42df-884f-109798307eb6" name="变更" comment="优化代码结构">
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/NetworkHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageCodeTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageCodeTool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/FileImageHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageHttpHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/HttpImageHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImagePacketHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ServerStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageUrl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ServerStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ServerStorage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -253,7 +239,7 @@
       <workItem from="1706344114235" duration="222000" />
       <workItem from="1706344353534" duration="16605000" />
       <workItem from="1706423828423" duration="16177000" />
-      <workItem from="1706518093408" duration="9850000" />
+      <workItem from="1706518093408" duration="9973000" />
     </task>
     <task id="LOCAL-00001" summary="gradle版">
       <created>1690982424735</created>
@@ -505,7 +491,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706463063500</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="优化代码结构">
+      <option name="closed" value="true" />
+      <created>1706541311928</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1706541311928</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -525,7 +519,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="string 传输" />
     <MESSAGE value="fix bug" />
     <MESSAGE value="fix bug,http speed up" />
     <MESSAGE value="try maven" />
@@ -550,7 +543,8 @@
     <MESSAGE value="修改拼写错误" />
     <MESSAGE value="始终识别CICODE,错误内容转到内部" />
     <MESSAGE value="能够修改nsfw" />
-    <option name="LAST_COMMIT_MESSAGE" value="能够修改nsfw" />
+    <MESSAGE value="优化代码结构" />
+    <option name="LAST_COMMIT_MESSAGE" value="优化代码结构" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
