@@ -24,7 +24,7 @@ import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.ADAPTER;
 public class ChatImageCode {
     public static final Pattern pattern = Pattern.compile("\\[\\[CICode,(.+)\\]\\]");
 
-    private String url = null;
+    private String url = "";
     private boolean nsfw = false;
     public static final String DEFAULT_NAME = "codename.chatimage.default";
     public static final String DEFAULT_PREFIX = "[";
@@ -50,7 +50,7 @@ public class ChatImageCode {
      * @return Identifier
      */
     public ChatImageFrame getFrame() {
-        if(this.url == null) return new ChatImageFrame(ChatImageFrame.FrameError.ILLEGAL_CICODE_ERROR);
+        if(this.url.isEmpty()) return new ChatImageFrame(ChatImageFrame.FrameError.ILLEGAL_CICODE_ERROR);
         ChatImageFrame frame = ClientStorage.getImage(this.getUrl());
         if (frame == null) return new ChatImageFrame(ChatImageFrame.FrameError.LOADING);
         return frame;
@@ -102,7 +102,7 @@ public class ChatImageCode {
                 throw new InvalidChatImageCodeException(raw + "<-can not match the value of ChatImageCode, Please Recheck");
             }
         }
-        if (this.url == null) {
+        if (this.url.isEmpty()) {
             throw new InvalidChatImageCodeException("not match url in ChatImageCode, Please Recheck");
         }
     }
@@ -125,7 +125,7 @@ public class ChatImageCode {
      * @param url
      */
     public void checkUrl(String url) {
-        if(url == null) {
+        if(url == null || url.isEmpty()) {
             ClientStorage.AddImageError(url, ChatImageFrame.FrameError.INVALID_URL);
             return;
         }

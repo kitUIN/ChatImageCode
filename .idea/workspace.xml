@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0eaf0ddb-0d5f-42df-884f-109798307eb6" name="变更" comment="新增json(反)序列化">
+    <list default="true" id="0eaf0ddb-0d5f-42df-884f-109798307eb6" name="变更" comment="新增注释">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/IChatImageAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/IChatImageAdapter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -240,7 +240,7 @@
       <workItem from="1706344353534" duration="16605000" />
       <workItem from="1706423828423" duration="16177000" />
       <workItem from="1706518093408" duration="11871000" />
-      <workItem from="1706703789269" duration="6528000" />
+      <workItem from="1706703789269" duration="7616000" />
     </task>
     <task id="LOCAL-00001" summary="gradle版">
       <created>1690982424735</created>
@@ -524,7 +524,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706710345037</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="新增注释">
+      <option name="closed" value="true" />
+      <created>1706710687516</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1706710687516</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -544,7 +552,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="try maven" />
     <MESSAGE value="gradle-wrapper.jar" />
     <MESSAGE value="&#10;withoutJavadocJar" />
     <MESSAGE value="destinationDir" />
@@ -569,7 +576,8 @@
     <MESSAGE value="优化代码结构" />
     <MESSAGE value="新增获取错误信息,日志打印" />
     <MESSAGE value="新增json(反)序列化" />
-    <option name="LAST_COMMIT_MESSAGE" value="新增json(反)序列化" />
+    <MESSAGE value="新增注释" />
+    <option name="LAST_COMMIT_MESSAGE" value="新增注释" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
