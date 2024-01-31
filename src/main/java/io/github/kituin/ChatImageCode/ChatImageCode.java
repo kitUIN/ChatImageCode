@@ -142,7 +142,7 @@ public class ChatImageCode {
                 Objects.equals(uri.getScheme(), "http")) {
             this.urlMethod = UrlMethod.HTTP;
             this.httpUrl = uri.toString();
-            if (!ClientStorage.ContainImage(this.httpUrl)) {
+            if (!ClientStorage.ContainImageAndCheck(this.httpUrl)) {
                 boolean f = HttpImageHandler.request(this.httpUrl);
                 if (!f) {
                     ClientStorage.AddImageError(this.httpUrl, ChatImageFrame.FrameError.INVALID_URL);
@@ -152,7 +152,7 @@ public class ChatImageCode {
             this.urlMethod = UrlMethod.FILE;
             this.fileUrl = uri.toString().replace("file:///","");
             File file = new File(this.fileUrl);
-            if (!ClientStorage.ContainImage(this.fileUrl)) {
+            if (!ClientStorage.ContainImageAndCheck(this.fileUrl)) {
                 boolean fileExist = file.exists();
                 if (fileExist) {
                     FileImageHandler.loadFile(this.fileUrl);

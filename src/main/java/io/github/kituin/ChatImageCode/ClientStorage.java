@@ -18,6 +18,16 @@ public class ClientStorage {
     public static boolean ContainImage(String url) {
         return images.containsKey(url);
     }
+
+    /**
+     * 图片存在并且已经加载入材质中
+     * @param url 图片Url
+     * @return 是否存在
+     */
+    public static boolean ContainImageAndCheck(String url) {
+        if(!images.containsKey(url)) return false;
+        return images.get(url).getId() != null;
+    }
     public static ChatImageFrame getImage(String url) {
         if(ContainImage(url))
             return images.get(url);
