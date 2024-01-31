@@ -1,6 +1,8 @@
 package io.github.kituin.ChatImageCode;
 
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import io.github.kituin.ChatImageCode.enums.UrlMethod;
 import io.github.kituin.ChatImageCode.exception.InvalidChatImageCodeException;
 
@@ -8,6 +10,8 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,11 +26,14 @@ public class ChatImageCode {
 
     private String url = null;
     private boolean nsfw = false;
+    public static final String DEFAULT_NAME = "codename.chatimage.default";
+    public static final String DEFAULT_PREFIX = "[";
+    public static final String DEFAULT_SUFFIX = "]";
 
-    private String name = "codename.chatimage.default";
+    private String name = DEFAULT_NAME;
 
-    private String prefix = "[";
-    private String suffix = "]";
+    private String prefix = DEFAULT_PREFIX;
+    private String suffix = DEFAULT_SUFFIX;
     private boolean isSelf = false;
     private final long timestamp;
     private String httpUrl;
@@ -195,7 +202,56 @@ public class ChatImageCode {
     }
 
 
+    /**
+     * 构造悬浮图片样式的Text消息
+     *
+     * @return <Mutable/>
+     */
+    public<Mutable> Mutable messageFromCode(Function<String, Mutable> newText,
+                                            Function<String, Mutable> newTranslatableText,
+                                            BiFunction<Mutable, Mutable, Mutable> appendText) {
+        Mutable t = newText.apply(prefix);
+        if (DEFAULT_NAME.equals(name)) {
+            appendText.apply(t, newTranslatableText.apply(name));
+        } else {
+            appendText.apply(t, newText.apply(name));
+        }
+        appendText.apply(t,newText.apply(suffix));
+        return t;
+    }
 
+
+
+    public static ChatImageCode fromJson(JsonElement json) {
+        JsonObject jsonObject = json.getAsJsonObject();
+        ChatImageCode.Builder builder = ChatImageCodeInstance.createBuilder();
+        if (jsonObject.has("url")) {
+            builder.setUrl(jsonObject.get("url").getAsString());
+        }
+        if (jsonObject.has("name")) {
+            builder.setName(jsonObject.get("name").getAsString());
+        }
+        if (jsonObject.has("prefix")) {
+            builder.setPrefix(jsonObject.get("prefix").getAsString());
+        }
+        if (jsonObject.has("suffix")) {
+            builder.setSuffix(jsonObject.get("suffix").getAsString());
+        }
+        if (jsonObject.has("nsfw")) {
+            builder.setNsfw(jsonObject.get("nsfw").getAsBoolean());
+        }
+        return builder.build();
+    }
+
+    public static JsonElement toJson(ChatImageCode code) {
+        JsonObject jsonObject = new JsonObject();
+        if(!code.getName().equals(DEFAULT_NAME))  jsonObject.addProperty("name", code.getName());
+        if(!code.getPrefix().equals(DEFAULT_PREFIX))  jsonObject.addProperty("prefix", code.getPrefix());
+        if(!code.getSuffix().equals(DEFAULT_SUFFIX))  jsonObject.addProperty("suffix", code.getSuffix());
+        jsonObject.addProperty("url", code.getUrl());
+        if(code.isNsfw()) jsonObject.addProperty("nsfw", code.isNsfw());
+        return jsonObject;
+    }
     public static class Builder {
         private final ChatImageCode code;
         public Builder(){
@@ -223,7 +279,7 @@ public class ChatImageCode {
          * @return  {@link Builder}
          */
         public Builder setName(String name) {
-            code.name = name;
+            if(name != null) code.name = name;
             return this;
         }
         /**
@@ -261,7 +317,7 @@ public class ChatImageCode {
          * @return {@link Builder}
          */
         public Builder setPrefix(String prefix) {
-            code.prefix = prefix;
+            if(prefix != null) code.prefix = prefix;
             return this;
         }
 
@@ -271,7 +327,7 @@ public class ChatImageCode {
          * @return {@link Builder}
          */
         public Builder setSuffix(String suffix) {
-            code.suffix = suffix;
+            if(suffix != null) code.suffix = suffix;
             return this;
         }
     }
