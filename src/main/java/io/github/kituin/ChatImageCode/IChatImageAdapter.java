@@ -16,6 +16,7 @@ public interface IChatImageAdapter {
      * 不同版本的处理材质方法,请自己实现
      * @param image 图片的InputStream
      * @return 注册好的材质Texture
+     * @param <T> 不同版本的材质ID类
      * @throws IOException 读取错误
      */
     <T> ChatImageFrame.TextureReader<T> loadTexture(InputStream image) throws IOException;

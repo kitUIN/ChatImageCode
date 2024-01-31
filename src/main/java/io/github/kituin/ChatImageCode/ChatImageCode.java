@@ -203,9 +203,12 @@ public class ChatImageCode {
 
 
     /**
-     * 构造悬浮图片样式的Text消息
-     *
-     * @return <Mutable/>
+     * 构造悬浮图片样式的抽象类文本
+     * @param newText 字符串文本的新建
+     * @param newTranslatableText 翻译文本的新建
+     * @param appendText 抽象类文本的添加
+     * @return 抽象类文本
+     * @param <Mutable> 抽象类文本
      */
     public<Mutable> Mutable messageFromCode(Function<String, Mutable> newText,
                                             Function<String, Mutable> newTranslatableText,
@@ -221,7 +224,11 @@ public class ChatImageCode {
     }
 
 
-
+    /**
+     * 反序列化CICode
+     * @param json CICode JSON模式
+     * @return CICode
+     */
     public static ChatImageCode fromJson(JsonElement json) {
         JsonObject jsonObject = json.getAsJsonObject();
         ChatImageCode.Builder builder = ChatImageCodeInstance.createBuilder();
@@ -243,6 +250,11 @@ public class ChatImageCode {
         return builder.build();
     }
 
+    /**
+     * 序列化CICode
+     * @param code CICode
+     * @return CICode JSON模式
+     */
     public static JsonElement toJson(ChatImageCode code) {
         JsonObject jsonObject = new JsonObject();
         if(!code.getName().equals(DEFAULT_NAME))  jsonObject.addProperty("name", code.getName());
