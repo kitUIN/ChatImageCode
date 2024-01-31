@@ -173,8 +173,14 @@ public class ChatImageCode {
         if (nsfw) {
             sb.append(",nsfw=true");
         }
-        if (name != null) {
+        if (name != null && !name.equals(DEFAULT_NAME)) {
             sb.append(",name=").append(name);
+        }
+        if (!Objects.equals(prefix, DEFAULT_PREFIX)) {
+            sb.append(",nsfw=").append(suffix);
+        }
+        if (!Objects.equals(suffix, DEFAULT_SUFFIX)) {
+            sb.append(",suffix=").append(suffix);
         }
         sb.append(",url=").append(this.url);
         return sb.append("]]").toString();
