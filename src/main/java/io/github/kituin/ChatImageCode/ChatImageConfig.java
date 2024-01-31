@@ -17,7 +17,10 @@ public class ChatImageConfig {
             .create();
 
     public String cachePath = "ChatImageCache";
-
+    /**
+     * 最大文件大小(KB) 默认 10MB
+     */
+    public int MaxFileSize = 10 * 1024;
     public int limitWidth = 125;
     public int limitHeight = 125;
     public int paddingLeft = 1;

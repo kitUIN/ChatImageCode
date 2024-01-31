@@ -35,8 +35,15 @@ public interface IChatImageAdapter {
     void checkCachePath();
 
     /**
-     * 打印日志
-     * @param log 日志内容
+     * 最大文件大小(KB)
+     * @return 最大文件大小(KB)
      */
-    void Log(String log);
+    int getMaxFileSize();
+    /**
+     * 获取下载进度
+     * @param process 进度
+     * @return 进度文本
+     * @param <T> 抽象类文本
+     */
+    <T> T getProcessMessage(int process);
 }

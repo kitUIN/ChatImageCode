@@ -4,10 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0eaf0ddb-0d5f-42df-884f-109798307eb6" name="变更" comment="新增注释">
+    <list default="true" id="0eaf0ddb-0d5f-42df-884f-109798307eb6" name="变更" comment="完善ContainImageAndCheck">
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/Http/IProgressListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/Http/ProgressResponseBody.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/IChatImageCodeLogger.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageCodeInstance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageCodeInstance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ClientStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ClientStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/FileImageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/FileImageHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/HttpImageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/HttpImageHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/IChatImageAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/IChatImageAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/NetworkHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/NetworkHelper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,9 +48,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Enum" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -240,7 +251,7 @@
       <workItem from="1706344353534" duration="16605000" />
       <workItem from="1706423828423" duration="16177000" />
       <workItem from="1706518093408" duration="11871000" />
-      <workItem from="1706703789269" duration="7616000" />
+      <workItem from="1706703789269" duration="16016000" />
     </task>
     <task id="LOCAL-00001" summary="gradle版">
       <created>1690982424735</created>
@@ -532,7 +543,31 @@
       <option name="project" value="LOCAL" />
       <updated>1706710687516</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="防止url=null">
+      <option name="closed" value="true" />
+      <created>1706712990977</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1706712990977</updated>
+    </task>
+    <task id="LOCAL-00039" summary="完善ToString">
+      <option name="closed" value="true" />
+      <created>1706713144627</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1706713144627</updated>
+    </task>
+    <task id="LOCAL-00040" summary="完善ContainImageAndCheck">
+      <option name="closed" value="true" />
+      <created>1706713490230</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1706713490230</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -552,9 +587,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="gradle-wrapper.jar" />
-    <MESSAGE value="&#10;withoutJavadocJar" />
-    <MESSAGE value="destinationDir" />
     <MESSAGE value="io.github.kituin.CICode" />
     <MESSAGE value="update" />
     <MESSAGE value="io.github.kituin.ChatImageCode" />
@@ -577,7 +609,10 @@
     <MESSAGE value="新增获取错误信息,日志打印" />
     <MESSAGE value="新增json(反)序列化" />
     <MESSAGE value="新增注释" />
-    <option name="LAST_COMMIT_MESSAGE" value="新增注释" />
+    <MESSAGE value="防止url=null" />
+    <MESSAGE value="完善ToString" />
+    <MESSAGE value="完善ContainImageAndCheck" />
+    <option name="LAST_COMMIT_MESSAGE" value="完善ContainImageAndCheck" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

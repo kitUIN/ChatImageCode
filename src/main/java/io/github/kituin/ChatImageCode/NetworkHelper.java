@@ -17,8 +17,6 @@ public class NetworkHelper {
      */
     public static int Limit = 10000;
 
-
-
     public static Gson gson = new Gson();
 
 

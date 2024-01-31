@@ -18,6 +18,7 @@ import java.util.function.Function;
 import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.ADAPTER;
 import static io.github.kituin.ChatImageCode.ChatImageFrame.FrameError.LOADING_FROM_SERVER;
 import static io.github.kituin.ChatImageCode.ChatImageFrame.FrameError.TIMEOUT;
+import static io.github.kituin.ChatImageCode.ClientStorage.URL_PROGRESS;
 
 public class ChatImageFrame<T> {
     /**
@@ -237,6 +238,7 @@ public class ChatImageFrame<T> {
             case INVALID_IMAGE_URL: case INVALID_URL:
                 return appendText.apply(newText.apply(code.getUrl()+"\n↑"), newTranslatableText.apply(error.toTranslationKey()));
             case LOADING:
+                if (URL_PROGRESS.containsKey(code.getUrl())) return ADAPTER.getProcessMessage(URL_PROGRESS.get(code.getUrl()));
                 if (code.isTimeout()) return newTranslatableText.apply( TIMEOUT.toTranslationKey() );
         }
         return newTranslatableText.apply(error.toTranslationKey());

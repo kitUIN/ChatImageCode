@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.LOGGER;
 import static io.github.kituin.ChatImageCode.enums.ChatImageType.*;
 
 public class FileImageHandler {
@@ -112,10 +113,12 @@ public class FileImageHandler {
         ChatImageType t = getPicType(input);
         if (t == GIF) {
             loadGif(input, url);
+            LOGGER.info("[FileImageHandler][{}]Image Type: {}", url, t.name());
         } else if (t == ICO) {
             try {
                 List<BufferedImage> images = ICODecoder.read(new ByteArrayInputStream(input));
                 ClientStorage.AddImage(url, new ChatImageFrame(images.get(0)));
+                LOGGER.info("[FileImageHandler][{}]Image Type: {}", url, t.name());
             } catch (IOException ex) {
                 ClientStorage.AddImageError(url, ChatImageFrame.FrameError.FILE_LOAD_ERROR);
             }
@@ -124,10 +127,12 @@ public class FileImageHandler {
                 BufferedImage image = ImageIO.read(new ByteArrayInputStream(input));
                 if(image == null)
                 {
-                    ClientStorage.AddImageError(url, ChatImageFrame.FrameError.INVALID_IMAGE_URL);
+                    LOGGER.info("[FileImageHandler][{}]Image Type: NULL", url);
+                    ClientStorage.AddImageError(url, ChatImageFrame.FrameError.INVALID_URL);
                     return;
                 }
-                ClientStorage.AddImage(url,new ChatImageFrame(image));
+                LOGGER.info("[FileImageHandler][{}]Image Type: {}", url, t.name());
+                ClientStorage.AddImage(url, new ChatImageFrame(image));
             } catch (IOException ex) {
                 ClientStorage.AddImageError(url, ChatImageFrame.FrameError.FILE_LOAD_ERROR);
             }

@@ -2,12 +2,17 @@ package io.github.kituin.ChatImageCode;
 
 import java.util.HashMap;
 
+import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.LOGGER;
 /**
  * 客户端存储
  *
  * @author kitUIN
  */
 public class ClientStorage {
+    /**
+     * 下载进度
+     */
+    public static HashMap<String, Integer> URL_PROGRESS = new HashMap<>();
     /**
      * 图片缓存
      */
@@ -25,8 +30,8 @@ public class ClientStorage {
      * @return 是否存在
      */
     public static boolean ContainImageAndCheck(String url) {
-        if(!images.containsKey(url)) return false;
-        return images.get(url).getId() != null;
+        if(images.containsKey(url)) return images.get(url).getId() != null;
+        return false;
     }
     public static ChatImageFrame getImage(String url) {
         if(ContainImage(url))
@@ -42,6 +47,7 @@ public class ClientStorage {
      * @param error 报错
      */
     public static void AddImageError(String url, ChatImageFrame.FrameError error) {
+        LOGGER.debug("AddImageError: {} -> {}",error,url);
         AddImage(url, new ChatImageFrame<>(error));
     }
     /**
