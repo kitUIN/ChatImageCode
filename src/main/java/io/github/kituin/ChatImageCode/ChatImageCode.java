@@ -138,7 +138,7 @@ public class ChatImageCode {
             if (!ClientStorage.ContainImage(this.httpUrl)) {
                 boolean f = HttpImageHandler.request(this.httpUrl);
                 if (!f) {
-                    ClientStorage.AddImageError(this.httpUrl, ChatImageFrame.FrameError.INVALID_HTTP_URL);
+                    ClientStorage.AddImageError(this.httpUrl, ChatImageFrame.FrameError.INVALID_URL);
                 }
             }
         } else if (Objects.equals(uri.getScheme(), "file")) {

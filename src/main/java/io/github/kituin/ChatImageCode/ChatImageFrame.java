@@ -11,8 +11,13 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.ADAPTER;
+import static io.github.kituin.ChatImageCode.ChatImageFrame.FrameError.LOADING_FROM_SERVER;
+import static io.github.kituin.ChatImageCode.ChatImageFrame.FrameError.TIMEOUT;
 
 public class ChatImageFrame<T> {
     /**
@@ -208,6 +213,34 @@ public class ChatImageFrame<T> {
         }
         return this;
     }
+
+    /**
+     * 获取错误信息
+     * @param newText 字符串文本的新建
+     * @param newTranslatableText 翻译文本的新建
+     * @param appendText 抽象类文本的添加
+     * @param code CICODE
+     * @return 抽象类文本
+     * @param <Mutable> 抽象类文本
+     */
+    public<Mutable>  Mutable getErrorMessage(Function<String, Mutable> newText,
+                                              Function<String, Mutable> newTranslatableText,
+                                              BiFunction<Mutable, Mutable, Mutable> appendText,
+                                              ChatImageCode code) {
+        switch (error) {
+            case FILE_NOT_FOUND:
+                if (code.isSendFromSelf()) {
+                    return appendText.apply(newText.apply(code.getUrl()+"\n↑"), newTranslatableText.apply(error.toTranslationKey()));
+                } else {
+                    return newTranslatableText.apply(code.isTimeout() ? TIMEOUT.toTranslationKey() : LOADING_FROM_SERVER.toTranslationKey());
+                }
+            case INVALID_IMAGE_URL: case INVALID_URL:
+                return appendText.apply(newText.apply(code.getUrl()+"\n↑"), newTranslatableText.apply(error.toTranslationKey()));
+            case LOADING:
+                if (code.isTimeout()) return newTranslatableText.apply( TIMEOUT.toTranslationKey() );
+        }
+        return newTranslatableText.apply(error.toTranslationKey());
+    }
     public enum FrameError {
         /**
          * 找不到该文件
@@ -230,6 +263,10 @@ public class ChatImageFrame<T> {
          */
         LOADING,
         /**
+         * 从服务器加载中
+         */
+        LOADING_FROM_SERVER,
+        /**
          * 服务器加载图片失败
          */
         SERVER_FILE_LOAD_ERROR,
@@ -242,9 +279,13 @@ public class ChatImageFrame<T> {
          */
         IMAGE_TYPE_NOT_SUPPORT,
         /**
-         * 无效的HTTP链接
+         * 无效的图片链接
          */
-        INVALID_HTTP_URL,
+        INVALID_IMAGE_URL,
+        /**
+         * 超时
+         */
+        TIMEOUT,
         /**
          * 无效的链接
          */

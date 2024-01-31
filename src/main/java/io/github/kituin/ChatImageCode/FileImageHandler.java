@@ -121,7 +121,13 @@ public class FileImageHandler {
             }
         } else if (t == PNG) {
             try {
-                ClientStorage.AddImage(url,new ChatImageFrame(ImageIO.read(new ByteArrayInputStream(input))));
+                BufferedImage image = ImageIO.read(new ByteArrayInputStream(input));
+                if(image == null)
+                {
+                    ClientStorage.AddImageError(url, ChatImageFrame.FrameError.INVALID_IMAGE_URL);
+                    return;
+                }
+                ClientStorage.AddImage(url,new ChatImageFrame(image));
             } catch (IOException ex) {
                 ClientStorage.AddImageError(url, ChatImageFrame.FrameError.FILE_LOAD_ERROR);
             }

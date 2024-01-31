@@ -32,4 +32,10 @@ public interface IChatImageAdapter {
      * 检查Cache Path是否存在,若不存在则新建
      */
     void checkCachePath();
+
+    /**
+     * 打印日志
+     * @param log 日志内容
+     */
+    void Log(String log);
 }
