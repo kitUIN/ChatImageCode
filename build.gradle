@@ -57,7 +57,7 @@ shadowJar {
     relocate "okhttp3", "chatimage.okhttp3"
     relocate "okio", "chatimage.okio"
     relocate "com.madgag.gif.fmsware", "chatimage.com.madgag.gif.fmsware"
-    destinationDirectory = file("D:/IdeaProjects/ChatImage-fabric-1.16/libs")
+    // destinationDirectory = file("D:/IdeaProjects/ChatImage-fabric-1.16/libs")
 }
 
 assemble.dependsOn shadowJar
