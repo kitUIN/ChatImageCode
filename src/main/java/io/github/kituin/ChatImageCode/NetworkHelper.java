@@ -33,7 +33,7 @@ public class NetworkHelper {
             int status = input.read(byt);
             int index = 0;
             int indexC = 1;
-            ChatImageCodeInstance.LOGGER.info("{}文件大小: {}",url,byt.length);
+            ChatImageCodeInstance.LOGGER.debug("{} File Size: {}",url,byt.length);
             String base64 = Base64.getEncoder().encodeToString(byt);
             int total = base64.length();
             int count = total / PacketLimit;
