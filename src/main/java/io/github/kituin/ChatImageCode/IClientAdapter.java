@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-public interface IChatImageAdapter {
+public interface IClientAdapter {
 
     /**
      * 获取配置的超时时间
@@ -25,9 +25,9 @@ public interface IChatImageAdapter {
      * 发包
      * @param url url
      * @param file 文件
-     * @param isToServer 是否发送到服务器
+     * @param isToServer 发送到服务器
      */
-    void sendPacket(String url, File file, boolean isToServer);
+    void sendToServer(String url, File file, boolean isToServer);
 
     /**
      * 检查Cache Path是否存在,若不存在则新建

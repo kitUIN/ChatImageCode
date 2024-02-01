@@ -7,7 +7,7 @@ import okhttp3.*;
 import java.io.IOException;
 import java.util.HashMap;
 
-import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.ADAPTER;
+import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.CLIENT_ADAPTER;
 import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.LOGGER;
 import static io.github.kituin.ChatImageCode.ClientStorage.AddImageError;
 import static io.github.kituin.ChatImageCode.ClientStorage.URL_PROGRESS;
@@ -50,14 +50,14 @@ public class HttpImageHandler {
                             .body(new ProgressResponseBody(response.body(), listener))
                             .build();
                 })
-//                .addInterceptor(chain -> {
-//                    // 大小监听器
-//                    Response response = chain.proceed(chain.request());
-//                    if (response.body() != null && response.body().contentLength() > ADAPTER.getMaxFileSize() * 1000L) {
-//                        throw new IOException("File size is too large");
-//                    }
-//                    return response;
-//                })
+                .addInterceptor(chain -> {
+                    // 大小监听器
+                    Response response = chain.proceed(chain.request());
+                    if (response.body() != null && response.body().contentLength() > CLIENT_ADAPTER.getMaxFileSize() * 1000L) {
+                        throw new IOException("File size is too large");
+                    }
+                    return response;
+                })
                 .build();
         client.newCall(getRequest).enqueue(new Callback() {
             @Override

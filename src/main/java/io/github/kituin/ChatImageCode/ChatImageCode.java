@@ -15,7 +15,8 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.ADAPTER;
+import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.CLIENT_ADAPTER;
+import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.SERVER_ADAPTER;
 
 
 /**
@@ -137,7 +138,7 @@ public class ChatImageCode {
             ClientStorage.AddImageError(this.url, ChatImageFrame.FrameError.INVALID_URL);
             return;
         }
-        ADAPTER.checkCachePath();
+        CLIENT_ADAPTER.checkCachePath();
         if (Objects.equals(uri.getScheme(), "https") ||
                 Objects.equals(uri.getScheme(), "http")) {
             this.urlMethod = UrlMethod.HTTP;
@@ -157,7 +158,7 @@ public class ChatImageCode {
                 if (fileExist) {
                     FileImageHandler.loadFile(this.fileUrl);
                 }
-                ADAPTER.sendPacket(this.fileUrl, file, fileExist);
+                CLIENT_ADAPTER.sendToServer(this.fileUrl, file,fileExist);
             }
         } else {
             ClientStorage.AddImageError(this.url, ChatImageFrame.FrameError.INVALID_URL);
@@ -204,7 +205,7 @@ public class ChatImageCode {
     }
 
     public boolean isTimeout() {
-        return System.currentTimeMillis() > this.timestamp + 1000L * ADAPTER.getTimeOut();
+        return System.currentTimeMillis() > this.timestamp + 1000L * CLIENT_ADAPTER.getTimeOut();
     }
 
 
@@ -239,7 +240,7 @@ public class ChatImageCode {
         JsonObject jsonObject = json.getAsJsonObject();
         ChatImageCode.Builder builder = ChatImageCodeInstance.createBuilder();
         if (jsonObject.has("url")) {
-            builder.setUrl(jsonObject.get("url").getAsString());
+            builder.setUrlForce(jsonObject.get("url").getAsString());
         }
         if (jsonObject.has("name")) {
             builder.setName(jsonObject.get("name").getAsString());
@@ -309,7 +310,15 @@ public class ChatImageCode {
             code.checkUrl(url);
             return this;
         }
-
+        /**
+         * 设置url
+         * @param url url
+         * @return  {@link Builder}
+         */
+        public Builder setUrlForce(String url) {
+            code.url = url;
+            return this;
+        }
         /**
          * 设置nsfw
          * @param nsfw 是否时nsfw
