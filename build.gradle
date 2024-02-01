@@ -53,11 +53,12 @@ tasks.register('javadocJar', Jar) {
 shadowJar {
     archiveClassifier = ''
     configurations = [project.configurations.shade]
-    // destinationDirectory = file("D:/IdeaProjects/ChatImage-fabric-1.16/libs")
     relocate "net.sf.image4j", "chatimage.net.sf.image4j"
     relocate "okhttp3", "chatimage.okhttp3"
     relocate "okio", "chatimage.okio"
     relocate "com.madgag.gif.fmsware", "chatimage.com.madgag.gif.fmsware"
+    if (file("D:/IdeaProjects/ChatImage-fabric-1.16").exists())
+        destinationDirectory = file("D:/IdeaProjects/ChatImage-fabric-1.16/libs")
 }
 
 assemble.dependsOn shadowJar

@@ -15,8 +15,8 @@ public class NetworkHelper {
     /**
      * 单个包限制
      */
-    public static int Limit = 10000;
-
+    public static int PacketLimit = 500000; // 32767;
+    public static int MAX_STRING = 532767;
     public static Gson gson = new Gson();
 
 
@@ -33,18 +33,19 @@ public class NetworkHelper {
             int status = input.read(byt);
             int index = 0;
             int indexC = 1;
+            ChatImageCodeInstance.LOGGER.info("{}文件大小: {}",url,byt.length);
             String base64 = Base64.getEncoder().encodeToString(byt);
             int total = base64.length();
-            int count = total / Limit;
+            int count = total / PacketLimit;
             int totalC;
-            if (total % Limit == 0) {
+            if (total % PacketLimit == 0) {
                 totalC = count;
             } else {
                 totalC = count + 1;
             }
             while (index <= total) {
-                stringList.add(gson.toJson(new ChatImageIndex(indexC, totalC, url, base64.substring(index, Math.min(index + Limit, total)))));
-                index += Limit;
+                stringList.add(gson.toJson(new ChatImageIndex(indexC, totalC, url, base64.substring(index, Math.min(index + PacketLimit, total)))));
+                index += PacketLimit;
                 indexC ++;
             }
             return stringList;

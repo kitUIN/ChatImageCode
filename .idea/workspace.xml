@@ -5,15 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0eaf0ddb-0d5f-42df-884f-109798307eb6" name="变更" comment="fix">
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/IServerAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageCodeInstance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageCodeInstance.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/HttpImageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/HttpImageHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/IChatImageAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/IClientAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/NetworkHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/NetworkHelper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -247,7 +244,8 @@
       <workItem from="1706423828423" duration="16177000" />
       <workItem from="1706518093408" duration="11871000" />
       <workItem from="1706703789269" duration="17192000" />
-      <workItem from="1706784040210" duration="927000" />
+      <workItem from="1706784040210" duration="1142000" />
+      <workItem from="1706785291748" duration="4793000" />
     </task>
     <task id="LOCAL-00001" summary="gradle版">
       <created>1690982424735</created>
@@ -579,7 +577,23 @@
       <option name="project" value="LOCAL" />
       <updated>1706724800022</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="fix">
+      <option name="closed" value="true" />
+      <created>1706785128911</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1706785128911</updated>
+    </task>
+    <task id="LOCAL-00044" summary="fix">
+      <option name="closed" value="true" />
+      <created>1706785337817</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1706785337817</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

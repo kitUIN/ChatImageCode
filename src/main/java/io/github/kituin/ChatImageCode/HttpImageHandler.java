@@ -6,6 +6,7 @@ import okhttp3.*;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.CLIENT_ADAPTER;
 import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.LOGGER;
@@ -43,6 +44,9 @@ public class HttpImageHandler {
                 URL_PROGRESS.put(url, percent);
         };
         OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(CLIENT_ADAPTER.getTimeOut(), TimeUnit.SECONDS) // java.net.SocketTimeoutException
+                .readTimeout(CLIENT_ADAPTER.getTimeOut(), TimeUnit.SECONDS)
+                .callTimeout(CLIENT_ADAPTER.getTimeOut(), TimeUnit.SECONDS)
                 .addNetworkInterceptor(chain -> {
                     // 进度监听器
                     Response response = chain.proceed(chain.request());
