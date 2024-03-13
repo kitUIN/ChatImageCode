@@ -230,12 +230,12 @@ public class ChatImageFrame<T> {
         switch (error) {
             case FILE_NOT_FOUND:
                 if (code.isSendFromSelf()) {
-                    return appendText.apply(newText.apply(code.getUrl()+"\n↑"), newTranslatableText.apply(error.toTranslationKey()));
+                    return appendText.apply(newText.apply(code.getUrl()), newTranslatableText.apply(error.toTranslationKey()));
                 } else {
                     return newTranslatableText.apply(LOADING_FROM_SERVER.toTranslationKey());
                 }
             case INVALID_IMAGE_URL: case INVALID_URL:
-                return appendText.apply(newText.apply(code.getUrl()+"\n↑"), newTranslatableText.apply(error.toTranslationKey()));
+                return appendText.apply(newText.apply(code.getUrl()), newTranslatableText.apply(error.toTranslationKey()));
             case LOADING:
                 if (URL_PROGRESS.containsKey(code.getUrl())) return CLIENT_ADAPTER.getProcessMessage(URL_PROGRESS.get(code.getUrl()));
         }

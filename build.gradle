@@ -66,7 +66,9 @@ assemble.dependsOn shadowJar
 test {
     useJUnitPlatform()
 }
-
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+}
 
 //tasks.register('fatJar', Jar) {
 //    manifest.from jar.manifest
@@ -158,10 +160,13 @@ publishing {
                 username = findProperty("user") ?: System.getenv("KITUIN_USERNAME")
                 password = findProperty("pwd") ?: System.getenv("KITUIN_PASSWORD")
             }
+            authentication {
+                basic(BasicAuthentication)
+            }
         }
     }
 }
 
-signing {
-    sign(publishing.publications.mavenJava)
-}
+//signing {
+//    sign(publishing.publications.mavenJava)
+//}
