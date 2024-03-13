@@ -15,3 +15,16 @@
 - 错误文本Tooltip
 - 依赖Shadow避免撞车
 - CICode json(反)序列化
+
+### 安装
+```gradle
+maven {
+    name "kituinMavenReleases"
+    url "https://maven.kituin.fun/releases"
+}
+```
+
+```gradle
+modImplementation("io.github.kituin:ChatImageCode:${project.code_version}")
+```
+
