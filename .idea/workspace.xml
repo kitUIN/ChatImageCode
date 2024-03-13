@@ -5,10 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0eaf0ddb-0d5f-42df-884f-109798307eb6" name="变更" comment="fix">
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/exception/FileTooLargeException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/public_maven.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/public_maven.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/ChatImageConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/HttpImageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/HttpImageHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/NetworkHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/kituin/ChatImageCode/NetworkHelper.java" afterDir="false" />
     </list>
@@ -41,13 +45,27 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "kitUIN"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="0346b3e7-48eb-4c95-a6ea-b8fcde76be4a" />
+        <option name="url" value="https://github.com/kitUIN/ChatImageCode.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -78,7 +96,7 @@
     &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.18557692&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -245,7 +263,14 @@
       <workItem from="1706518093408" duration="11871000" />
       <workItem from="1706703789269" duration="17192000" />
       <workItem from="1706784040210" duration="1142000" />
-      <workItem from="1706785291748" duration="4793000" />
+      <workItem from="1706785291748" duration="5395000" />
+      <workItem from="1706791747984" duration="16000" />
+      <workItem from="1706965714776" duration="111000" />
+      <workItem from="1707296505511" duration="1770000" />
+      <workItem from="1707298289427" duration="6000" />
+      <workItem from="1707387323434" duration="535000" />
+      <workItem from="1707388462802" duration="227000" />
+      <workItem from="1710338908620" duration="2261000" />
     </task>
     <task id="LOCAL-00001" summary="gradle版">
       <created>1690982424735</created>
@@ -593,7 +618,39 @@
       <option name="project" value="LOCAL" />
       <updated>1706785337817</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="fix">
+      <option name="closed" value="true" />
+      <created>1706791020467</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1706791020467</updated>
+    </task>
+    <task id="LOCAL-00046" summary="debug">
+      <option name="closed" value="true" />
+      <created>1706791392325</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1706791392325</updated>
+    </task>
+    <task id="LOCAL-00047" summary="fix">
+      <option name="closed" value="true" />
+      <created>1706791577019</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1706791577019</updated>
+    </task>
+    <task id="LOCAL-00048" summary="fix">
+      <option name="closed" value="true" />
+      <created>1706791755840</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1706791755840</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -613,7 +670,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="io.github.kituin.ChatImageCode" />
     <MESSAGE value="archiveClassifier" />
     <MESSAGE value="name" />
     <MESSAGE value="fix code error" />
@@ -637,6 +693,7 @@
     <MESSAGE value="完善ToString" />
     <MESSAGE value="完善ContainImageAndCheck" />
     <MESSAGE value="新增进度" />
+    <MESSAGE value="debug" />
     <MESSAGE value="fix" />
     <option name="LAST_COMMIT_MESSAGE" value="fix" />
   </component>

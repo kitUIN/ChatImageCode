@@ -15,7 +15,7 @@ public class NetworkHelper {
     /**
      * 单个包限制
      */
-    public static int PacketLimit = 500000; // 32767;
+    public static int PacketLimit = 500000; // 500K default:32767;
     public static int MAX_STRING = 532767;
     public static Gson gson = new Gson();
 

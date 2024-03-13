@@ -32,7 +32,7 @@ public class ChatImageConfig {
     public boolean cqCode = true;
     public boolean checkImageUri = true;
     public boolean dragUseCicode = true;
-    public int timeout = 5;
+    public int timeout = 60;
     public static File configFile;
     public ChatImageConfig() { }
     public void save()

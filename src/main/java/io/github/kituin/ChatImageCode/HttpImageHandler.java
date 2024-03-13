@@ -2,6 +2,7 @@ package io.github.kituin.ChatImageCode;
 
 import io.github.kituin.ChatImageCode.Http.IProgressListener;
 import io.github.kituin.ChatImageCode.Http.ProgressResponseBody;
+import io.github.kituin.ChatImageCode.exception.FileTooLargeException;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -57,8 +58,8 @@ public class HttpImageHandler {
                 .addInterceptor(chain -> {
                     // 大小监听器
                     Response response = chain.proceed(chain.request());
-                    if (response.body() != null && response.body().contentLength() > CLIENT_ADAPTER.getMaxFileSize() * 1000L) {
-                        throw new IOException("File size is too large");
+                    if (response.body() != null && response.body().contentLength() > CLIENT_ADAPTER.getMaxFileSize() * 1024L) {
+                        throw new FileTooLargeException("File size is too large");
                     }
                     return response;
                 })
@@ -68,7 +69,11 @@ public class HttpImageHandler {
             public void onFailure(Call call, IOException e) {
                 HTTPS_MAP.put(url, 2);
                 LOGGER.error("{} Error-> {}",url,e);
-                AddImageError(url, ChatImageFrame.FrameError.TIMEOUT);
+                if(e instanceof FileTooLargeException){
+                    AddImageError(url, ChatImageFrame.FrameError.FILE_TOO_LARGE);
+                }else{
+                    AddImageError(url, ChatImageFrame.FrameError.TIMEOUT);
+                }
             }
 
             @Override

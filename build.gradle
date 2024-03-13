@@ -150,13 +150,13 @@ publishing {
         maven {
             name = project.name
             if (project.version.toString().endsWith("-SNAPSHOT")) {
-                url = "https://s01.oss.sonatype.org/content/repositories/snapshots"
+                url = "https://maven.kituin.fun/snapshots"
             } else {
-                url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                url = "https://maven.kituin.fun/releases"
             }
             credentials {
-                username = findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
-                password = findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
+                username = findProperty("user") ?: System.getenv("KITUIN_USERNAME")
+                password = findProperty("pwd") ?: System.getenv("KITUIN_PASSWORD")
             }
         }
     }

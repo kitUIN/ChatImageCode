@@ -9,6 +9,7 @@ import io.github.kituin.ChatImageCode.exception.InvalidChatImageCodeException;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -126,14 +127,16 @@ public class ChatImageCode {
      * @param url
      */
     public void checkUrl(String url) {
+        System.out.println(url);
         if(url == null || url.isEmpty()) {
             ClientStorage.AddImageError(url, ChatImageFrame.FrameError.INVALID_URL);
             return;
         }
-        this.url = url.replace("\\", "/");
+        this.url = url.replace("\\", "/").replace(" ","%20");
         URI uri;
         try {
             uri = new URI(this.url);
+            System.out.println(uri);
         } catch (URISyntaxException e) {
             ClientStorage.AddImageError(this.url, ChatImageFrame.FrameError.INVALID_URL);
             return;
@@ -151,7 +154,7 @@ public class ChatImageCode {
             }
         } else if (Objects.equals(uri.getScheme(), "file")) {
             this.urlMethod = UrlMethod.FILE;
-            this.fileUrl = uri.toString().replace("file:///","");
+            this.fileUrl = Paths.get(uri).toString().replace("file:///","");
             File file = new File(this.fileUrl);
             if (!ClientStorage.ContainImageAndCheck(this.fileUrl)) {
                 boolean fileExist = file.exists();
