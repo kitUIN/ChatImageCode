@@ -127,7 +127,6 @@ public class ChatImageCode {
      * @param url
      */
     public void checkUrl(String url) {
-        System.out.println(url);
         if(url == null || url.isEmpty()) {
             ClientStorage.AddImageError(url, ChatImageFrame.FrameError.INVALID_URL);
             return;
@@ -136,7 +135,6 @@ public class ChatImageCode {
         URI uri;
         try {
             uri = new URI(this.url);
-            System.out.println(uri);
         } catch (URISyntaxException e) {
             ClientStorage.AddImageError(this.url, ChatImageFrame.FrameError.INVALID_URL);
             return;
