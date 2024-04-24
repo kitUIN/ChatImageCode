@@ -62,7 +62,7 @@ public class ChatImageCodeTool {
     public static List<Object> sliceMsg (String checkedText,
                                          boolean isSelf,
                                          ChatImageBoolean allString,
-                                         Consumer<InvalidChatImageCodeException> logger) {
+                                         Consumer<Exception> logger) {
         Matcher m = cicodesPattern.matcher(checkedText);
         List<Object> res = Lists.newArrayList();
         int lastPosition = 0;
@@ -74,7 +74,7 @@ public class ChatImageCodeTool {
                 lastPosition = m.end();
                 res.add(image);
                 allString.setValue(false);
-            } catch (InvalidChatImageCodeException e) {
+            } catch (Exception e) {
                 logger.accept(e);
             }
         }

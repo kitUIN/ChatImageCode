@@ -34,7 +34,7 @@ public class NetworkHelper {
             ChatImageCodeInstance.LOGGER.debug("{} File Size: {}",url,byt.length);
             String base64 = Base64.getEncoder().encodeToString(byt);
             int total = base64.length();
-            int packetLimit = NetworkHelper.PacketLimit - 50 - Integer.toString(total).length() * 2;
+            int packetLimit = NetworkHelper.PacketLimit - 50 - Integer.toString(total).length() * 2 - url.length();
             int count = total / packetLimit;
             int totalC;
             if (total % packetLimit == 0) {
