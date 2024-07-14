@@ -124,7 +124,7 @@ public class ChatImageCode {
 
     /**
      * 检查Url
-     * @param url
+     * @param url url
      */
     public void checkUrl(String url) {
         if(url == null || url.isEmpty()) {
@@ -139,6 +139,7 @@ public class ChatImageCode {
             ClientStorage.AddImageError(this.url, ChatImageFrame.FrameError.INVALID_URL);
             return;
         }
+        if (CLIENT_ADAPTER == null) return;
         CLIENT_ADAPTER.checkCachePath();
         if (Objects.equals(uri.getScheme(), "https") ||
                 Objects.equals(uri.getScheme(), "http")) {
