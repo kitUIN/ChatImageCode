@@ -1,7 +1,8 @@
-name: Publish to Maven
+name: Publish
 on:
-  release:
-    types: [created]
+  push:
+    tags:
+      - "*.*"
   workflow_dispatch:
 
 jobs:
@@ -23,3 +24,13 @@ jobs:
         env:
           KITUIN_USERNAME: ${{ secrets.KITUIN_USERNAME }}
           KITUIN_PASSWORD: ${{ secrets.KITUIN_PASSWORD }}
+
+      - name: Create GitHub release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.TOKEN }}"
+          # automatic_release_tag: ${{ github.ref_name }}
+          title: ${{ github.ref_name }}
+          prerelease: false
+          files: |
+            build/libs/*
