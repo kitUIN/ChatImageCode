@@ -20,7 +20,7 @@ public class ChatImageCodeTool {
     );
     public static final Pattern cicodesPattern = Pattern.compile("(\\[\\[CICode,(.*?)\\]\\])");
     public static final Pattern cqPattern = Pattern.compile("\\[CQ:image,(.*?)\\]");
-    public static final Pattern uriPattern = Pattern.compile("(https?:\\/\\/|file:\\/\\/\\/)([^:<>\\\"]*\\/)([^:<>\\\"]*)\\.(png!thumbnail|bmp|png|jpe?g|gif|ico)");
+    public static final Pattern uriPattern = Pattern.compile("(https?:\\/\\/|file:\\/\\/\\/)?([\\w-]+(\\.[\\w-]+)*)(\\/[^\\s]*)?\\.(png!thumbnail|bmp|png|jpe?g|gif|ico)(\\?([a-zA-Z0-9_&=+-]+)(&[a-zA-Z0-9_&=+-]+)*)?");
 
 
     /**
