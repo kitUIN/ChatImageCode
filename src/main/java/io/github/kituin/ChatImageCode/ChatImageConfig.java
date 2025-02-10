@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 /**
+ * 配置项
  * @author kitUIN
  */
 public class ChatImageConfig {
@@ -21,24 +22,68 @@ public class ChatImageConfig {
      * 最大文件大小(KB) 默认 10MB
      */
     public int MaxFileSize = 10 * 1024;
+    /**
+     * 显示图片限制宽度
+     */
     public int limitWidth = 125;
+    /**
+     * 显示图片限制长度
+     */
     public int limitHeight = 125;
+    /**
+     * 外框偏移-左
+     */
     public int paddingLeft = 1;
+    /**
+     * 外框偏移-右
+     */
     public int paddingRight = 1;
+    /**
+     * 外框偏移-上
+     */
     public int paddingTop = 1;
+    /**
+     * 外框偏移-下
+     */
     public int paddingBottom = 1;
+    /**
+     * gif播放速度
+     */
     public int gifSpeed = 3;
+    /**
+     * NSFW模式
+     */
     public boolean nsfw = false;
+    /**
+     * 兼容识别cqCode
+     */
     public boolean cqCode = true;
+    /**
+     * 兼容识别链接(如果是图片)
+     */
     public boolean checkImageUri = true;
+    /**
+     * 聊天栏拖入图片自动转换为CICODE
+     */
     public boolean dragUseCicode = true;
+    /**
+     * 聊天栏粘贴图片自动转换为CICODE
+     */
+    public boolean pasteImageUseCicode = true;
+    /**
+     * 网络图片请求超时
+     */
     public int timeout = 60;
+
     public static File configFile;
-    public ChatImageConfig() { }
-    public void save()
-    {
+
+    public ChatImageConfig() {
+    }
+
+    public void save() {
         ChatImageConfig.saveConfig(this);
     }
+
     public static ChatImageConfig loadConfig() {
         try {
             ChatImageConfig config;
@@ -50,8 +95,7 @@ public class ChatImageConfig {
             }
             saveConfig(config);
             return config;
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
             // e.printStackTrace();
             return new ChatImageConfig();
         }
@@ -63,7 +107,7 @@ public class ChatImageConfig {
             writer.write(GSON.toJson(config));
             writer.close();
         } catch (Exception e) {
-            //e.printStackTrace();
+            // e.printStackTrace();
         }
     }
 }
