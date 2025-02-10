@@ -63,11 +63,15 @@ public class ChatImageConfig {
      */
     public boolean checkImageUri = true;
     /**
-     * 聊天栏拖入图片自动转换为CICODE
+     * 聊天栏拖入图片功能,关闭则拖入图片无效
+     */
+    public boolean dragImage = true;
+    /**
+     * 聊天栏拖入图片 开启时使用CICode,关闭时使用FileUrl
      */
     public boolean dragUseCicode = true;
     /**
-     * 聊天栏粘贴图片自动转换为CICODE
+     * 聊天栏粘贴图片 自动转换为CICODE
      */
     public boolean pasteImageUseCicode = true;
     /**
