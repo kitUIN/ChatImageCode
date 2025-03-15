@@ -75,6 +75,10 @@ public class ChatImageConfig {
      */
     public boolean pasteImageUseCicode = true;
     /**
+     * 实验性文本组件兼容,用于兼容一些特殊情况下的文本组件,如果无法识别CICode,请尝试关闭该功能
+     */
+    public boolean experimentalTextComponentCompatibility = true;
+    /**
      * 网络图片请求超时
      */
     public int timeout = 60;
