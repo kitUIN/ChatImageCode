@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static io.github.kituin.ChatImageCode.NetworkHelper.gson;
+
 
 public class ServerBlockCache {
 
@@ -85,7 +87,7 @@ public class ServerBlockCache {
         StringBuilder base64Img = new StringBuilder();
         if (blocks != null) {
             for (int i = 1; i <= blocks.size(); i++) {
-                base64Img.append(blocks.get(i));
+                base64Img.append(gson.fromJson(blocks.get(i), ChatImageIndex.class).bytes);
             }
             return base64Img.toString();
         }

@@ -41,8 +41,8 @@ public class ChatImageCode {
     private String httpUrl;
     private UrlMethod urlMethod = UrlMethod.UNKNOWN;
     private String fileUrl;
-    private
-    ChatImageCode() {
+
+    private ChatImageCode() {
         this.timestamp = System.currentTimeMillis();
     }
 
@@ -52,7 +52,7 @@ public class ChatImageCode {
      * @return Identifier
      */
     public ChatImageFrame getFrame() {
-        if(this.url.isEmpty()) return new ChatImageFrame(ChatImageFrame.FrameError.ILLEGAL_CICODE_ERROR);
+        if (this.url.isEmpty()) return new ChatImageFrame(ChatImageFrame.FrameError.ILLEGAL_CICODE_ERROR);
         ChatImageFrame frame = ClientStorage.getImage(this.getUrl());
         if (frame == null) return new ChatImageFrame(ChatImageFrame.FrameError.LOADING);
         return frame;
@@ -76,7 +76,6 @@ public class ChatImageCode {
 
     /**
      * slice each code variable
-     *
      */
     private void slice(String rawCode) throws InvalidChatImageCodeException {
         String[] raws = rawCode.split(",");
@@ -110,7 +109,6 @@ public class ChatImageCode {
     }
 
 
-
     public String getUrl() {
         switch (urlMethod) {
             case HTTP:
@@ -124,14 +122,15 @@ public class ChatImageCode {
 
     /**
      * 检查Url
+     *
      * @param url url
      */
     public void checkUrl(String url) {
-        if(url == null || url.isEmpty()) {
+        if (url == null || url.isEmpty()) {
             ClientStorage.AddImageError(url, ChatImageFrame.FrameError.INVALID_URL);
             return;
         }
-        this.url = url.replace("\\", "/").replace(" ","%20");
+        this.url = url.replace("\\", "/").replace(" ", "%20");
         URI uri;
         try {
             uri = new URI(this.url);
@@ -139,36 +138,44 @@ public class ChatImageCode {
             ClientStorage.AddImageError(this.url, ChatImageFrame.FrameError.INVALID_URL);
             return;
         }
-        if (CLIENT_ADAPTER == null) return;
-        CLIENT_ADAPTER.checkCachePath();
-        if (Objects.equals(uri.getScheme(), "https") ||
-                Objects.equals(uri.getScheme(), "http")) {
+        if (Objects.equals(uri.getScheme(), "https") || Objects.equals(uri.getScheme(), "http")) {
             this.urlMethod = UrlMethod.HTTP;
             this.httpUrl = uri.toString();
+        } else if (Objects.equals(uri.getScheme(), "file")) {
+            this.urlMethod = UrlMethod.FILE;
+            this.fileUrl = Paths.get(uri).toString().replace("file:///", "");
+        } else {
+            ClientStorage.AddImageError(this.url, ChatImageFrame.FrameError.INVALID_URL);
+        }
+        if (CLIENT_ADAPTER == null) return;
+        ClientLoadImage();
+    }
+
+    private void ClientLoadImage() {
+        CLIENT_ADAPTER.checkCachePath();
+        if (urlMethod == UrlMethod.HTTP) {
             if (!ClientStorage.ContainImageAndCheck(this.httpUrl)) {
                 boolean f = HttpImageHandler.request(this.httpUrl);
                 if (!f) {
                     ClientStorage.AddImageError(this.httpUrl, ChatImageFrame.FrameError.INVALID_URL);
                 }
             }
-        } else if (Objects.equals(uri.getScheme(), "file")) {
-            this.urlMethod = UrlMethod.FILE;
-            this.fileUrl = Paths.get(uri).toString().replace("file:///","");
+        } else if (urlMethod == UrlMethod.FILE) {
             File file = new File(this.fileUrl);
             if (!ClientStorage.ContainImageAndCheck(this.fileUrl)) {
                 boolean fileExist = file.exists();
                 if (fileExist) {
                     FileImageHandler.loadFile(this.fileUrl);
                 }
-                CLIENT_ADAPTER.sendToServer(this.fileUrl, file,fileExist);
+                CLIENT_ADAPTER.sendToServer(this.fileUrl, file, fileExist);
             }
-        } else {
-            ClientStorage.AddImageError(this.url, ChatImageFrame.FrameError.INVALID_URL);
         }
     }
+
     public void retry() {
         checkUrl(this.url);
     }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -188,12 +195,15 @@ public class ChatImageCode {
         sb.append(",url=").append(this.url);
         return sb.append("]]").toString();
     }
+
     public String getName() {
         return this.name;
     }
+
     public boolean isNsfw() {
         return nsfw;
     }
+
     public boolean isSendFromSelf() {
         return isSelf;
     }
@@ -213,28 +223,30 @@ public class ChatImageCode {
 
     /**
      * 构造悬浮图片样式的抽象类文本
-     * @param newText 字符串文本的新建
+     *
+     * @param newText             字符串文本的新建
      * @param newTranslatableText 翻译文本的新建
-     * @param appendText 抽象类文本的添加
+     * @param appendText          抽象类文本的添加
+     * @param <Mutable>           抽象类文本
      * @return 抽象类文本
-     * @param <Mutable> 抽象类文本
      */
-    public<Mutable> Mutable messageFromCode(Function<String, Mutable> newText,
-                                            Function<String, Mutable> newTranslatableText,
-                                            BiFunction<Mutable, Mutable, Mutable> appendText) {
+    public <Mutable> Mutable messageFromCode(Function<String, Mutable> newText,
+                                             Function<String, Mutable> newTranslatableText,
+                                             BiFunction<Mutable, Mutable, Mutable> appendText) {
         Mutable t = newText.apply(prefix);
         if (DEFAULT_NAME.equals(name)) {
             appendText.apply(t, newTranslatableText.apply(name));
         } else {
             appendText.apply(t, newText.apply(name));
         }
-        appendText.apply(t,newText.apply(suffix));
+        appendText.apply(t, newText.apply(suffix));
         return t;
     }
 
 
     /**
      * 反序列化CICode
+     *
      * @param json CICode JSON模式
      * @return CICode
      */
@@ -261,21 +273,24 @@ public class ChatImageCode {
 
     /**
      * 序列化CICode
+     *
      * @param code CICode
      * @return CICode JSON模式
      */
     public static JsonElement toJson(ChatImageCode code) {
         JsonObject jsonObject = new JsonObject();
-        if(!code.getName().equals(DEFAULT_NAME))  jsonObject.addProperty("name", code.getName());
-        if(!code.getPrefix().equals(DEFAULT_PREFIX))  jsonObject.addProperty("prefix", code.getPrefix());
-        if(!code.getSuffix().equals(DEFAULT_SUFFIX))  jsonObject.addProperty("suffix", code.getSuffix());
+        if (!code.getName().equals(DEFAULT_NAME)) jsonObject.addProperty("name", code.getName());
+        if (!code.getPrefix().equals(DEFAULT_PREFIX)) jsonObject.addProperty("prefix", code.getPrefix());
+        if (!code.getSuffix().equals(DEFAULT_SUFFIX)) jsonObject.addProperty("suffix", code.getSuffix());
         jsonObject.addProperty("url", code.getUrl());
-        if(code.isNsfw()) jsonObject.addProperty("nsfw", code.isNsfw());
+        if (code.isNsfw()) jsonObject.addProperty("nsfw", code.isNsfw());
         return jsonObject;
     }
+
     public static class Builder {
         private final ChatImageCode code;
-        public Builder(){
+
+        public Builder() {
             this.code = new ChatImageCode();
         }
 
@@ -294,37 +309,45 @@ public class ChatImageCode {
             code.match(ciCode);
             return this;
         }
+
         /**
          * 设置name
+         *
          * @param name name
-         * @return  {@link Builder}
+         * @return {@link Builder}
          */
         public Builder setName(String name) {
-            if(name != null) code.name = name;
+            if (name != null) code.name = name;
             return this;
         }
+
         /**
          * 设置url
+         *
          * @param url url
-         * @return  {@link Builder}
+         * @return {@link Builder}
          */
         public Builder setUrl(String url) {
             code.checkUrl(url);
             return this;
         }
+
         /**
          * 设置url
+         *
          * @param url url
-         * @return  {@link Builder}
+         * @return {@link Builder}
          */
         public Builder setUrlForce(String url) {
             code.url = url;
             return this;
         }
+
         /**
          * 设置nsfw
+         *
          * @param nsfw 是否时nsfw
-         * @return  {@link Builder}
+         * @return {@link Builder}
          */
         public Builder setNsfw(boolean nsfw) {
             code.nsfw = nsfw;
@@ -333,6 +356,7 @@ public class ChatImageCode {
 
         /**
          * 设置是否自己发送
+         *
          * @param isSelf 是否自己发送
          * @return {@link Builder}
          */
@@ -340,23 +364,26 @@ public class ChatImageCode {
             code.isSelf = isSelf;
             return this;
         }
+
         /**
          * 设置前缀
+         *
          * @param prefix 前缀
          * @return {@link Builder}
          */
         public Builder setPrefix(String prefix) {
-            if(prefix != null) code.prefix = prefix;
+            if (prefix != null) code.prefix = prefix;
             return this;
         }
 
         /**
          * 设置后缀
+         *
          * @param suffix 后缀
          * @return {@link Builder}
          */
         public Builder setSuffix(String suffix) {
-            if(suffix != null) code.suffix = suffix;
+            if (suffix != null) code.suffix = suffix;
             return this;
         }
     }

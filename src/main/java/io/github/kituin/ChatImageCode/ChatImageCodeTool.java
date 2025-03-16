@@ -55,7 +55,7 @@ public class ChatImageCodeTool {
      * 切分文本中的CICODE
      * @param checkedText 检测的文本
      * @param isSelf 是否为自身发送
-     * @param allString 是否检测到CICODE
+     * @param allString 是否全部为字符串
      * @param logger 日志
      * @return 切分后的文本
      */
