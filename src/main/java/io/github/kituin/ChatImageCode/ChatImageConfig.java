@@ -13,6 +13,8 @@ import java.nio.file.Files;
  * @author kitUIN
  */
 public class ChatImageConfig {
+    public static ChatImageConfig CONFIG;
+
     private static final Gson GSON = new GsonBuilder()
             .disableHtmlEscaping().setLenient().setPrettyPrinting()
             .create();

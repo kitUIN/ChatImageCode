@@ -68,6 +68,7 @@ public class ChatImageFrame<T> {
         }
 
     }
+
     public ChatImageFrame(BufferedImage image) {
         try {
             ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -80,6 +81,7 @@ public class ChatImageFrame<T> {
             this.error = FrameError.FILE_LOAD_ERROR;
         }
     }
+
     public ChatImageFrame(FrameError error) {
         this.error = error;
     }
@@ -92,15 +94,15 @@ public class ChatImageFrame<T> {
 
     /**
      * 检查所有帧导入完毕
+     *
      * @return 是否完毕
      */
-    public boolean checkLoad()
-    {
-        if(id == null){
+    public boolean checkLoad() {
+        if (id == null) {
             return false;
         }
         for (int i = 0; i < this.siblings.size(); i++) {
-            if(this.siblings.get(i).getId()==null){
+            if (this.siblings.get(i).getId() == null) {
                 return false;
             }
         }
@@ -109,7 +111,8 @@ public class ChatImageFrame<T> {
 
     /**
      * 载入图片
-     * @param limitWidth limitWidth
+     *
+     * @param limitWidth  limitWidth
      * @param limitHeight limitHeight
      * @return 载入成功返回true, 失败则为false
      */
@@ -126,7 +129,7 @@ public class ChatImageFrame<T> {
     /**
      * limit display image width and height
      *
-     * @param limitWidth limitWidth
+     * @param limitWidth  limitWidth
      * @param limitHeight limitHeight
      */
     public void limitSize(int limitWidth, int limitHeight) {
@@ -146,6 +149,7 @@ public class ChatImageFrame<T> {
 
     /**
      * 如果Id==null,再使用该方法
+     *
      * @return {@link FrameError}
      */
     public FrameError getError() {
@@ -198,6 +202,7 @@ public class ChatImageFrame<T> {
 
     /**
      * GIF动图循环
+     *
      * @param gifSpeed gif速率
      * @return this
      */
@@ -205,7 +210,7 @@ public class ChatImageFrame<T> {
         int gifLength = this.siblings.size();
         if (gifLength != 0) {
             if (this.butter == gifSpeed) {
-                this.index = ((this.index + 1) % ( gifLength + 1));
+                this.index = ((this.index + 1) % (gifLength + 1));
                 this.butter = 0;
             } else {
                 this.butter = ((this.butter + 1) % (gifSpeed + 1));
@@ -216,17 +221,18 @@ public class ChatImageFrame<T> {
 
     /**
      * 获取错误信息
-     * @param newText 字符串文本的新建
+     *
+     * @param newText             字符串文本的新建
      * @param newTranslatableText 翻译文本的新建
-     * @param appendText 抽象类文本的添加
-     * @param code CICODE
+     * @param appendText          抽象类文本的添加
+     * @param code                CICODE
+     * @param <Mutable>           抽象类文本
      * @return 抽象类文本
-     * @param <Mutable> 抽象类文本
      */
-    public<Mutable>  Mutable getErrorMessage(Function<String, Mutable> newText,
-                                              Function<String, Mutable> newTranslatableText,
-                                              BiFunction<Mutable, Mutable, Mutable> appendText,
-                                              ChatImageCode code) {
+    public <Mutable> Mutable getErrorMessage(Function<String, Mutable> newText,
+                                             Function<String, Mutable> newTranslatableText,
+                                             BiFunction<Mutable, Mutable, Mutable> appendText,
+                                             ChatImageCode code) {
         switch (error) {
             case FILE_NOT_FOUND:
                 if (code.isSendFromSelf()) {
@@ -234,13 +240,16 @@ public class ChatImageFrame<T> {
                 } else {
                     return newTranslatableText.apply(LOADING_FROM_SERVER.toTranslationKey());
                 }
-            case INVALID_IMAGE_URL: case INVALID_URL:
+            case INVALID_IMAGE_URL:
+            case INVALID_URL:
                 return appendText.apply(newText.apply(code.getUrl()), newTranslatableText.apply(error.toTranslationKey()));
             case LOADING:
-                if (URL_PROGRESS.containsKey(code.getUrl())) return CLIENT_ADAPTER.getProcessMessage(URL_PROGRESS.get(code.getUrl()));
+                if (URL_PROGRESS.containsKey(code.getUrl()))
+                    return CLIENT_ADAPTER.getProcessMessage(URL_PROGRESS.get(code.getUrl()));
         }
         return newTranslatableText.apply(error.toTranslationKey());
     }
+
     public enum FrameError {
         /**
          * 找不到该文件
@@ -297,10 +306,10 @@ public class ChatImageFrame<T> {
 
         /**
          * 快速转换为翻译键
+         *
          * @return "{小写name}.chatimage.exception"
          */
-        public String toTranslationKey()
-        {
+        public String toTranslationKey() {
             String name = name();
             return name.toLowerCase() + ".chatimage.exception";
         }
@@ -308,6 +317,7 @@ public class ChatImageFrame<T> {
 
     /**
      * 材质读取器,临时类
+     *
      * @param <T> 材质ID类
      */
     public static class TextureReader<T> {
@@ -317,8 +327,9 @@ public class ChatImageFrame<T> {
 
         /**
          * 材质读取器,临时类
-         * @param id 不同版本的材质ID
-         * @param width 宽度
+         *
+         * @param id     不同版本的材质ID
+         * @param width  宽度
          * @param height 高度
          */
         public TextureReader(T id, int width, int height) {

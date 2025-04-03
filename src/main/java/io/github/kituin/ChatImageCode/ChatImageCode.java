@@ -9,6 +9,7 @@ import io.github.kituin.ChatImageCode.exception.InvalidChatImageCodeException;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -18,6 +19,7 @@ import java.util.regex.Pattern;
 
 import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.CLIENT_ADAPTER;
 import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.SERVER_ADAPTER;
+import static io.github.kituin.ChatImageCode.ChatImageCodeTool.*;
 
 
 /**
@@ -41,6 +43,7 @@ public class ChatImageCode {
     private String httpUrl;
     private UrlMethod urlMethod = UrlMethod.UNKNOWN;
     private String fileUrl;
+    private String tempUrl;
 
     private ChatImageCode() {
         this.timestamp = System.currentTimeMillis();
@@ -144,6 +147,9 @@ public class ChatImageCode {
         } else if (Objects.equals(uri.getScheme(), "file")) {
             this.urlMethod = UrlMethod.FILE;
             this.fileUrl = Paths.get(uri).toString().replace("file:///", "");
+        } else if (Objects.equals(uri.getScheme(), "ci")) {
+            this.urlMethod = UrlMethod.FILE;
+            this.fileUrl = this.tempUrl = Paths.get(uri).toString().replace("ci://", "");
         } else {
             ClientStorage.AddImageError(this.url, ChatImageFrame.FrameError.INVALID_URL);
         }
@@ -152,22 +158,18 @@ public class ChatImageCode {
     }
 
     private void ClientLoadImage() {
-        CLIENT_ADAPTER.checkCachePath();
+        ChatImageCodeTool.checkCachePath();
         if (urlMethod == UrlMethod.HTTP) {
-            if (!ClientStorage.ContainImageAndCheck(this.httpUrl)) {
-                boolean f = HttpImageHandler.request(this.httpUrl);
-                if (!f) {
-                    ClientStorage.AddImageError(this.httpUrl, ChatImageFrame.FrameError.INVALID_URL);
-                }
-            }
+            if (!ClientStorage.ContainImageAndCheck(this.httpUrl) && (!HttpImageHandler.request(this.httpUrl)))
+                ClientStorage.AddImageError(this.httpUrl, ChatImageFrame.FrameError.INVALID_URL);
         } else if (urlMethod == UrlMethod.FILE) {
-            File file = new File(this.fileUrl);
+            // if (this.tempUrl != null) this.fileUrl = transferToFileUrl(this.tempUrl);
             if (!ClientStorage.ContainImageAndCheck(this.fileUrl)) {
-                boolean fileExist = file.exists();
-                if (fileExist) {
+                if (new File(this.fileUrl).exists()) {
                     FileImageHandler.loadFile(this.fileUrl);
+                } else {
+                    CLIENT_ADAPTER.tryGetFileFromServer(this.tempUrl);
                 }
-                CLIENT_ADAPTER.sendToServer(this.fileUrl, file, fileExist);
             }
         }
     }
@@ -328,6 +330,7 @@ public class ChatImageCode {
          * @return {@link Builder}
          */
         public Builder setUrl(String url) {
+            if(url.startsWith("file")) url = transferToTempUrl(url);
             code.checkUrl(url);
             return this;
         }
@@ -339,6 +342,7 @@ public class ChatImageCode {
          * @return {@link Builder}
          */
         public Builder setUrlForce(String url) {
+            if(url.startsWith("file")) url = transferToTempUrl(url);
             code.url = url;
             return this;
         }

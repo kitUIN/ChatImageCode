@@ -3,12 +3,20 @@ package io.github.kituin.ChatImageCode;
 import com.google.common.collect.Lists;
 import io.github.kituin.ChatImageCode.exception.InvalidChatImageCodeException;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.createBuilder;
+import static io.github.kituin.ChatImageCode.ChatImageConfig.CONFIG;
 
 public class ChatImageCodeTool {
     public static final List<String> passKeys = Lists.newArrayList(
@@ -25,44 +33,46 @@ public class ChatImageCodeTool {
 
     /**
      * 检查key是否在白名单中
+     *
      * @param key 翻译键
      * @return 是否存在
      */
-    public static boolean checkKey(String key)
-    {
+    public static boolean checkKey(String key) {
         return passKeys.stream().anyMatch(key::equals);
     }
+
     /**
-     *  构建消息
-     * @param texts 切分后的文本列表
+     * 构建消息
+     *
+     * @param texts        切分后的文本列表
      * @param appendString 添加普通文本方法
-     * @param appendCode 添加CICODE方法
+     * @param appendCode   添加CICODE方法
      */
     public static void buildMsg(List<Object> texts,
                                 Consumer<String> appendString,
-                                Consumer<ChatImageCode> appendCode)
-    {
-        texts.forEach((obj)->{
-            if(obj instanceof String){
-                appendString.accept((String)obj);
-            }else if(obj instanceof ChatImageCode){
-                appendCode.accept((ChatImageCode)obj);
+                                Consumer<ChatImageCode> appendCode) {
+        texts.forEach((obj) -> {
+            if (obj instanceof String) {
+                appendString.accept((String) obj);
+            } else if (obj instanceof ChatImageCode) {
+                appendCode.accept((ChatImageCode) obj);
             }
         });
     }
 
     /**
      * 切分文本中的CICODE
+     *
      * @param checkedText 检测的文本
-     * @param isSelf 是否为自身发送
-     * @param allString 是否全部为字符串
-     * @param logger 日志
+     * @param isSelf      是否为自身发送
+     * @param allString   是否全部为字符串
+     * @param logger      日志
      * @return 切分后的文本
      */
-    public static List<Object> sliceMsg (String checkedText,
-                                         boolean isSelf,
-                                         ChatImageBoolean allString,
-                                         Consumer<Exception> logger) {
+    public static List<Object> sliceMsg(String checkedText,
+                                        boolean isSelf,
+                                        ChatImageBoolean allString,
+                                        Consumer<Exception> logger) {
         Matcher m = cicodesPattern.matcher(checkedText);
         List<Object> res = Lists.newArrayList();
         int lastPosition = 0;
@@ -70,7 +80,7 @@ public class ChatImageCodeTool {
         while (m.find()) {
             try {
                 ChatImageCode image = createBuilder().fromCode(m.group()).setIsSelf(isSelf).build();
-                if(m.start() != 0) res.add(checkedText.substring(lastPosition,m.start()));
+                if (m.start() != 0) res.add(checkedText.substring(lastPosition, m.start()));
                 lastPosition = m.end();
                 res.add(image);
                 allString.setValue(false);
@@ -78,11 +88,13 @@ public class ChatImageCodeTool {
                 logger.accept(e);
             }
         }
-        if(lastPosition != checkedText.length()) res.add(checkedText.substring(lastPosition));
+        if (lastPosition != checkedText.length()) res.add(checkedText.substring(lastPosition));
         return res;
     }
+
     /**
      * 检测文本中存在的CQCode,若存在则转为CICODE
+     *
      * @param checkedText 检测的文本
      * @return 新文本
      */
@@ -91,15 +103,15 @@ public class ChatImageCodeTool {
         while (cqm.find()) {
             String[] cqArgs = cqm.group(1).split(",");
             String cq_Url = "";
-            for(int i=0; i<cqArgs.length; i++){
+            for (int i = 0; i < cqArgs.length; i++) {
                 String[] cqParams = cqArgs[i].split("=");
-                if("url".equals(cqParams[0])){
+                if ("url".equals(cqParams[0])) {
                     cq_Url = cqParams[1];
                     break;
                 }
             }
-            if(!cq_Url.isEmpty()){
-                checkedText = checkedText.substring(0,cqm.start()) + String.format("[[CICode,url=%s]]", cq_Url) + checkedText.substring(cqm.end());
+            if (!cq_Url.isEmpty()) {
+                checkedText = checkedText.substring(0, cqm.start()) + String.format("[[CICode,url=%s]]", cq_Url) + checkedText.substring(cqm.end());
             }
         }
         return checkedText;
@@ -107,17 +119,18 @@ public class ChatImageCodeTool {
 
     /**
      * 检测文本中存在的图片链接,若存在则转为CICODE
-     * @param texts 检测的文本
-     * @param isSelf 是否为自身发送
+     *
+     * @param texts     检测的文本
+     * @param isSelf    是否为自身发送
      * @param allString 是否全部为字符串
      * @return 新文本
      */
     public static List<Object> checkImageUri(List<Object> texts, boolean isSelf, ChatImageBoolean allString) {
         int i = 0;
-        while (i < texts.size()){
+        while (i < texts.size()) {
             Object obj = texts.get(i);
             i++;
-            if(obj instanceof String){
+            if (obj instanceof String) {
                 String checkedText = (String) obj;
                 Matcher matcher = uriPattern.matcher(checkedText);
                 int lastPosition = 0;
@@ -125,27 +138,26 @@ public class ChatImageCodeTool {
                 while (matcher.find()) {
                     String url = matcher.group();
                     ChatImageCode image = createBuilder().setUrl(url).setIsSelf(isSelf).build();
-                    if(matcher.start() != 0)
-                    {
-                        if(first){
-                            texts.set(i-1,checkedText.substring(lastPosition, matcher.start()));
+                    if (matcher.start() != 0) {
+                        if (first) {
+                            texts.set(i - 1, checkedText.substring(lastPosition, matcher.start()));
                             first = false;
-                        }else{
-                            texts.add(i,checkedText.substring(lastPosition, matcher.start()));
+                        } else {
+                            texts.add(i, checkedText.substring(lastPosition, matcher.start()));
                             i++;
                         }
                     }
                     lastPosition = matcher.end();
-                    if(first){
-                        texts.set(i-1,image);
+                    if (first) {
+                        texts.set(i - 1, image);
                         first = false;
-                    }else{
-                        texts.add(i,image);
+                    } else {
+                        texts.add(i, image);
                         i++;
                     }
                     allString.setValue(false);
                 }
-                if(lastPosition != checkedText.length() && lastPosition != 0) {
+                if (lastPosition != checkedText.length() && lastPosition != 0) {
                     texts.add(i, checkedText.substring(lastPosition));
                     i++;
                 }
@@ -154,4 +166,38 @@ public class ChatImageCodeTool {
 
         return texts;
     }
+
+    /**
+     * 检查缓存路径
+     */
+    public static void checkCachePath() {
+        File folder = new File(CONFIG.cachePath);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+    }
+
+    public static HashMap<String, String> localFiles = new HashMap<>();
+
+    public static String transferToTempUrl(String fileUrl) {
+        File image = new File(fileUrl);
+        int randomNumber = ThreadLocalRandom.current().nextInt(1000, 10000);
+        String name = CONFIG.cachePath + "/" + System.currentTimeMillis() + randomNumber;
+        if (!image.exists()) return name;
+        String fileName = image.getName();
+        String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+        String newName = name + "." + extension;
+        try {
+            Files.copy(image.toPath(), Paths.get(newName), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        localFiles.put(newName, fileUrl);
+        return  "ci://" + newName;
+    }
+
+    public static String transferToFileUrl(String tempUrl) {
+        return Paths.get(tempUrl).toAbsolutePath().toString();
+    }
+
 }
