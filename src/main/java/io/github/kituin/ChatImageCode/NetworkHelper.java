@@ -2,6 +2,7 @@ package io.github.kituin.ChatImageCode;
 
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
+import io.github.kituin.ChatImageCode.enums.ChatImageType;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +11,11 @@ import java.nio.file.Files;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+
+import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.LOGGER;
+import static io.github.kituin.ChatImageCode.FileImageHandler.getPicType;
+import static io.github.kituin.ChatImageCode.enums.ChatImageType.GIF;
+import static io.github.kituin.ChatImageCode.enums.ChatImageType.ICO;
 
 public class NetworkHelper {
     /**
@@ -63,7 +69,8 @@ public class NetworkHelper {
         for (int i = 1; i <= blocks.size(); i++) {
             builder.append(blocks.get(i).bytes);
         }
-        FileImageHandler.loadFile(Base64.getDecoder().decode(builder.toString()), url);
+        byte[] image = Base64.getDecoder().decode(builder.toString());
+        FileImageHandler.loadFile(image, url);
     }
 
 }

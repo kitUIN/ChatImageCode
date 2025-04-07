@@ -29,10 +29,11 @@ configurations {
     implementation.extendsFrom shade
 }
 dependencies {
-    shade 'net.sf.image4j:image4j:0.7zensight1'
+//    shade 'net.sf.image4j:image4j:0.7zensight1'
     shade 'com.squareup.okhttp3:okhttp:3.14.9'
     shade 'com.squareup.okio:okio:1.17.2'
     shade 'com.madgag:animated-gif-lib:1.4'
+    shade "org.apache.commons:commons-imaging:1.0.0-alpha5"
     implementation 'com.google.guava:guava:31.0.1-jre'
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'commons-io:commons-io:2.5'
