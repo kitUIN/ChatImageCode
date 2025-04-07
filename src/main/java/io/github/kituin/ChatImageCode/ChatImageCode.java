@@ -9,7 +9,6 @@ import io.github.kituin.ChatImageCode.exception.InvalidChatImageCodeException;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -18,8 +17,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.CLIENT_ADAPTER;
-import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.SERVER_ADAPTER;
 import static io.github.kituin.ChatImageCode.ChatImageCodeTool.*;
+import static io.github.kituin.ChatImageCode.ChatImageConfig.CONFIG;
 
 
 /**
@@ -54,10 +53,10 @@ public class ChatImageCode {
      *
      * @return Identifier
      */
-    public ChatImageFrame getFrame() {
-        if (this.url.isEmpty()) return new ChatImageFrame(ChatImageFrame.FrameError.ILLEGAL_CICODE_ERROR);
-        ChatImageFrame frame = ClientStorage.getImage(this.getUrl());
-        if (frame == null) return new ChatImageFrame(ChatImageFrame.FrameError.LOADING);
+    public ChatImageFrame<?> getFrame() {
+        if (this.url.isEmpty()) return new ChatImageFrame<>(ChatImageFrame.FrameError.ILLEGAL_CICODE_ERROR);
+        ChatImageFrame<?> frame = ClientStorage.getImage(this.getUrl());
+        if (frame == null) return new ChatImageFrame<>(ChatImageFrame.FrameError.LOADING);
         return frame;
     }
 
@@ -149,7 +148,8 @@ public class ChatImageCode {
             this.fileUrl = Paths.get(uri).toString().replace("file:///", "");
         } else if (Objects.equals(uri.getScheme(), "ci")) {
             this.urlMethod = UrlMethod.FILE;
-            this.fileUrl = this.tempUrl = Paths.get(uri).toString().replace("ci://", "");
+            this.tempUrl = Paths.get(uri).toString().replace("ci://", "");
+            this.fileUrl = CONFIG.cachePath + "/" + this.tempUrl;
         } else {
             ClientStorage.AddImageError(this.url, ChatImageFrame.FrameError.INVALID_URL);
         }
@@ -219,7 +219,7 @@ public class ChatImageCode {
     }
 
     public boolean isTimeout() {
-        return System.currentTimeMillis() > this.timestamp + 1000L * CLIENT_ADAPTER.getTimeOut();
+        return System.currentTimeMillis() > this.timestamp + 1000L * ChatImageConfig.CONFIG.timeout;
     }
 
 
@@ -330,7 +330,7 @@ public class ChatImageCode {
          * @return {@link Builder}
          */
         public Builder setUrl(String url) {
-            if(url.startsWith("file:///")) url = transferToTempUrl(url.replace("file:///",""));
+            if (url.startsWith("file:///")) url = transferToTempUrl(url.replace("file:///", ""));
             code.checkUrl(url);
             return this;
         }
@@ -342,7 +342,7 @@ public class ChatImageCode {
          * @return {@link Builder}
          */
         public Builder setUrlForce(String url) {
-            if(url.startsWith("file:///")) url = transferToTempUrl(url.replace("file:///",""));
+            if (url.startsWith("file:///")) url = transferToTempUrl(url.replace("file:///", ""));
             code.url = url;
             return this;
         }

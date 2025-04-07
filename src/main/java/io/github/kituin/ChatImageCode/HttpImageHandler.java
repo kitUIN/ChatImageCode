@@ -45,9 +45,9 @@ public class HttpImageHandler {
                 URL_PROGRESS.put(url, percent);
         };
         OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(CLIENT_ADAPTER.getTimeOut(), TimeUnit.SECONDS) // java.net.SocketTimeoutException
-                .readTimeout(CLIENT_ADAPTER.getTimeOut(), TimeUnit.SECONDS)
-                .callTimeout(CLIENT_ADAPTER.getTimeOut(), TimeUnit.SECONDS)
+                .connectTimeout(ChatImageConfig.CONFIG.timeout, TimeUnit.SECONDS) // java.net.SocketTimeoutException
+                .readTimeout(ChatImageConfig.CONFIG.timeout, TimeUnit.SECONDS)
+                .callTimeout(ChatImageConfig.CONFIG.timeout, TimeUnit.SECONDS)
                 .addNetworkInterceptor(chain -> {
                     // 进度监听器
                     Response response = chain.proceed(chain.request());
@@ -58,7 +58,7 @@ public class HttpImageHandler {
                 .addInterceptor(chain -> {
                     // 大小监听器
                     Response response = chain.proceed(chain.request());
-                    if (response.body() != null && response.body().contentLength() > CLIENT_ADAPTER.getMaxFileSize() * 1024L) {
+                    if (response.body() != null && response.body().contentLength() > ChatImageConfig.CONFIG.MaxFileSize * 1024L) {
                         throw new FileTooLargeException("File size is too large");
                     }
                     return response;

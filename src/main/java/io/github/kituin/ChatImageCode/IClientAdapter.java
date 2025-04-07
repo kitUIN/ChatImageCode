@@ -1,16 +1,10 @@
 package io.github.kituin.ChatImageCode;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
 public interface IClientAdapter  {
-
-    /**
-     * 获取配置的超时时间
-     *
-     * @return 超时时间
-     */
-    int getTimeOut();
 
     /**
      * 不同版本的处理材质方法,请自己实现
@@ -23,19 +17,19 @@ public interface IClientAdapter  {
     <T> ChatImageFrame.TextureReader<T> loadTexture(InputStream image) throws IOException;
 
     /**
-     * 发包
+     * 从服务器获取文件
      *
      * @param url        url
      */
     void tryGetFileFromServer(String url);
 
-
     /**
-     * 最大文件大小(KB)
+     * 发送文件到服务器
      *
-     * @return 最大文件大小(KB)
+     * @param url url
+     * @param file 文件
      */
-    int getMaxFileSize();
+    void sendFileToServer(String url, File file);
 
     /**
      * 获取下载进度

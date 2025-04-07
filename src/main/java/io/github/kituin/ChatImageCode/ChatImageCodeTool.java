@@ -181,19 +181,19 @@ public class ChatImageCodeTool {
 
     public static String transferToTempUrl(String fileUrl) {
         File image = new File(fileUrl);
-        int randomNumber = ThreadLocalRandom.current().nextInt(1000, 10000);
-        String name = CONFIG.cachePath + "/" + System.currentTimeMillis() + randomNumber;
+        String name = String.valueOf(System.currentTimeMillis()) + ThreadLocalRandom.current().nextInt(1000, 10000);
         if (!image.exists()) return name;
         String fileName = image.getName();
         String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
         String newName = name + "." + extension;
         try {
-            Files.copy(image.toPath(), Paths.get(newName), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(image.toPath(), Paths.get(CONFIG.cachePath + "/" + newName), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
         }
         localFiles.put(newName, fileUrl);
-        return  "ci://" + newName;
+        ChatImageCodeInstance.CLIENT_ADAPTER.sendFileToServer(newName, image);
+        return "ci://" + newName;
     }
 
     public static String transferToFileUrl(String tempUrl) {
