@@ -21,12 +21,13 @@ public class NetworkHelper {
     /**
      * 单个包限制
      */
-    public static int PacketLimit = 30000; //default:32767;
+    public static int PacketLimit = 30000; // default:32767;
     public static Gson gson = new Gson();
 
     /**
      * 创建分包
-     * @param url url
+     *
+     * @param url  url
      * @param file 本地文件
      * @return 返回分包列表
      */
@@ -37,7 +38,7 @@ public class NetworkHelper {
             int status = input.read(byt);
             int index = 0;
             int indexC = 1;
-            ChatImageCodeInstance.LOGGER.debug("{} File Size: {}",url,byt.length);
+            ChatImageCodeInstance.LOGGER.debug("{} File Size: {}", url, byt.length);
             String base64 = Base64.getEncoder().encodeToString(byt);
             int total = base64.length();
             int packetLimit = NetworkHelper.PacketLimit - 50 - Integer.toString(total).length() * 2 - url.length();
@@ -51,7 +52,7 @@ public class NetworkHelper {
             while (index <= total) {
                 stringList.add(gson.toJson(new ChatImageIndex(indexC, totalC, url, base64.substring(index, Math.min(index + packetLimit, total)))));
                 index += packetLimit;
-                indexC ++;
+                indexC++;
             }
             return stringList;
         } catch (IOException e) {
@@ -59,18 +60,20 @@ public class NetworkHelper {
         }
 
     }
+
     /**
      * 合并文件分块
-     * @param url url
+     *
+     * @param url    url
      * @param blocks blocks
      */
-    public static void mergeFileBlocks(String url, Map<Integer,ChatImageIndex> blocks) {
+    public static void mergeFileBlocks(String url, Map<Integer, ChatImageIndex> blocks) {
         StringBuilder builder = new StringBuilder();
         for (int i = 1; i <= blocks.size(); i++) {
             builder.append(blocks.get(i).bytes);
         }
         byte[] image = Base64.getDecoder().decode(builder.toString());
-        FileImageHandler.loadFile(image, url);
+        FileImageHandler.loadFile(image, url, true);
     }
 
 }
