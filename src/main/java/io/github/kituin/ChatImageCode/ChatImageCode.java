@@ -168,7 +168,7 @@ public class ChatImageCode {
                 if (new File(this.fileUrl).exists()) {
                     FileImageHandler.loadFile(this.fileUrl);
                 } else {
-                    CLIENT_ADAPTER.tryGetFileFromServer(this.tempUrl);
+                    CLIENT_ADAPTER.tryGetFileFromServer(this.url);
                 }
             }
         }

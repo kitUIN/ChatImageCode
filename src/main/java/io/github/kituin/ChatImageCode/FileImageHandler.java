@@ -135,7 +135,7 @@ public class FileImageHandler {
                 }
                 ClientStorage.AddImage(url, new ChatImageFrame<>(image));
                 if (save) {
-                    File file = new File(ChatImageConfig.CONFIG.cachePath + "/" + url);
+                    File file = new File(ChatImageConfig.CONFIG.cachePath + "/" + url.replace("ci://",""));
                     if (!file.exists()) {
                         Imaging.writeImage(image, file, format);
                     }

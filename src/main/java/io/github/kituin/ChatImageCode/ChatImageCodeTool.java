@@ -15,6 +15,7 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.LOGGER;
 import static io.github.kituin.ChatImageCode.ChatImageCodeInstance.createBuilder;
 import static io.github.kituin.ChatImageCode.ChatImageConfig.CONFIG;
 
@@ -189,11 +190,13 @@ public class ChatImageCodeTool {
         try {
             Files.copy(image.toPath(), Paths.get(CONFIG.cachePath + "/" + newName), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("复制文件失败:{}", e);
         }
-        localFiles.put(newName, fileUrl);
-        ChatImageCodeInstance.CLIENT_ADAPTER.sendFileToServer(newName, image);
-        return "ci://" + newName;
+        String resName = "ci://" + newName;
+        localFiles.put(resName, fileUrl);
+        if(ChatImageCodeInstance.CLIENT_ADAPTER != null)
+            ChatImageCodeInstance.CLIENT_ADAPTER.sendFileToServer(resName, image);
+        return resName;
     }
 
     public static String transferToFileUrl(String tempUrl) {
