@@ -330,7 +330,7 @@ public class ChatImageCode {
          * @return {@link Builder}
          */
         public Builder setUrl(String url) {
-            if(url.startsWith("file")) url = transferToTempUrl(url);
+            if(url.startsWith("file:///")) url = transferToTempUrl(url.replace("file:///",""));
             code.checkUrl(url);
             return this;
         }
@@ -342,7 +342,7 @@ public class ChatImageCode {
          * @return {@link Builder}
          */
         public Builder setUrlForce(String url) {
-            if(url.startsWith("file")) url = transferToTempUrl(url);
+            if(url.startsWith("file:///")) url = transferToTempUrl(url.replace("file:///",""));
             code.url = url;
             return this;
         }
