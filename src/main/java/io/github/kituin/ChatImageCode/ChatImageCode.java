@@ -148,7 +148,7 @@ public class ChatImageCode {
             this.fileUrl = Paths.get(uri).toString().replace("file:///", "");
         } else if (Objects.equals(uri.getScheme(), "ci")) {
             this.urlMethod = UrlMethod.FILE;
-            this.tempUrl = Paths.get(uri).toString().replace("ci://", "");
+            this.tempUrl = uri.toString().replace("ci://", "");
             this.fileUrl = CONFIG.cachePath + "/" + this.tempUrl;
         } else {
             ClientStorage.AddImageError(this.url, ChatImageFrame.FrameError.INVALID_URL);
