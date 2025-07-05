@@ -3,6 +3,7 @@ package io.github.kituin.ChatImageCode;
 import com.google.common.collect.Lists;
 import io.github.kituin.ChatImageCode.exception.InvalidChatImageCodeException;
 
+import java.io.File;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -18,9 +19,9 @@ public class ChatImageCodeTool {
             "commands.message.display.incoming",
             "commands.message.display.outgoing"
     );
-    public static final Pattern cicodesPattern = Pattern.compile("(\\[\\[CICode,(.*?)\\]\\])");
-    public static final Pattern cqPattern = Pattern.compile("\\[CQ:image,(.*?)\\]");
-    public static final Pattern uriPattern = Pattern.compile("(https?:\\/\\/|file:\\/\\/\\/)?([\\w-]+(\\.[\\w-]+)*)(\\/[^\\s]*)?\\.(png!thumbnail|bmp|png|jpe?g|gif|ico)(\\?([a-zA-Z0-9_&=+-]+)(&[a-zA-Z0-9_&=+-]+)*)?");
+    public static final Pattern cicodesPattern = Pattern.compile("(\\[\\[CICode,(.*?)]])");
+    public static final Pattern cqPattern = Pattern.compile("\\[CQ:image,(.*?)]");
+    public static final Pattern uriPattern = Pattern.compile("(https?://|file:///)?([\\w-]+(\\.[\\w-]+)*)?((([A-Z]:)?[\\\\/]+\\S*)?\\.(png!thumbnail|bmp|png|jpe?g|gif|ico))(\\?([a-zA-Z0-9_&=+-]+)(&[a-zA-Z0-9_&=+-]+)*)?");
 
 
     /**
@@ -124,6 +125,31 @@ public class ChatImageCodeTool {
                 boolean first = true;
                 while (matcher.find()) {
                     String url = matcher.group();
+                    // 验证链接
+                    String protocol = matcher.group(1); // 协议
+                    String domain = matcher.group(2);   // 域名
+                    String path = matcher.group(4);     // 路径
+                    String query = matcher.group(8);    // 查询参数
+
+                    if (protocol == null && domain != null) {
+                        protocol = "http://";
+                    }
+                    if (protocol == null && path != null) {
+                        protocol = "file://";
+                    }
+                    if (protocol == null) continue;
+                    if (protocol.equals("http://") || protocol.equals("https://")) {
+                        if (domain == null) continue;
+                        if (path == null) continue;
+                    } else if (protocol.equals("file:///")) {
+                        if (domain == null && path == null) continue;
+                        if (query != null) continue;
+                        StringBuilder sb = new StringBuilder();
+                        if (domain != null) sb.append(domain);
+                        if (path != null) sb.append(path);
+                        if (!new File(sb.toString()).isFile()) continue;
+                    }
+
                     ChatImageCode image = createBuilder().setUrl(url).setIsSelf(isSelf).build();
                     if(matcher.start() != 0)
                     {
